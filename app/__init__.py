@@ -1,24 +1,37 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from config import Config
+
+from app.extensions import db, login_manager, migrate
 
 
 def create_app():
+
     app = Flask(__name__)
 
-    app.config["SECRET_KEY"] = "my_secret_key"
+    app.config.from_object(Config)
 
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///babybloom.db"
-
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.init_app(app)
 
-    from app import models
+    login_manager.init_app(app)
 
-    from app.routes import main
+    from app.models import User
 
-    app.add_url_rule("/", view_func=main)
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    migrate.init_app(app, db)
+
+
+    from app.main.routes import main
+
+    app.register_blueprint(main)
+
+    from app.auth import auth
+
+    app.register_blueprint(auth)
+
 
     return app
