@@ -1,0 +1,27 @@
+<h1>Edit child</h1>
+
+
+<form method="POST">
+
+    <label>Name:</label>
+    <input 
+        type="text" 
+        name="name"
+        value="{{ child.name }}"
+    >
+
+
+    <label>Birth date:</label>
+
+    <input
+        type="date"
+        name="birth_date"
+        value="{{ child.birth_date }}"
+    >
+
+
+    <button type="submit">
+        Save
+    </button>
+
+</form>

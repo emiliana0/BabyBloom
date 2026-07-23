@@ -23,6 +23,12 @@ class User(db.Model, UserMixin):
         nullable=False
     )
 
+    children = db.relationship(
+    'Child',
+    back_populates='parent',
+    cascade='all, delete'
+    )
+
     def __repr__(self):
         return f"<User {self.username}>"
     
@@ -45,6 +51,11 @@ class Child(db.Model):
         db.Integer,
         db.ForeignKey("user.id"),
         nullable=False
+    )
+
+    parent = db.relationship(
+        'User',
+        back_populates='children'
     )
 
     def __repr__(self):
