@@ -1,0 +1,50 @@
+<h1>
+Edit note
+</h1>
+
+
+<form method="POST">
+
+
+<input
+name="title"
+value="{{ note.title }}"
+>
+
+
+<select name="category">
+
+<option value="HEALTH">
+Health
+</option>
+
+<option value="FOOD">
+Food
+</option>
+
+<option value="FIRST_TIMES">
+First Times
+</option>
+
+<option value="OTHER">
+Other
+</option>
+
+</select>
+
+
+
+<textarea name="content">
+
+{{ note.content }}
+
+</textarea>
+
+
+
+<button>
+Save changes
+</button>
+
+
+</form>

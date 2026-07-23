@@ -1,0 +1,56 @@
+<h1>
+Add note for {{ child.name }}
+</h1>
+
+
+<form method="POST">
+
+
+<label>
+Title
+</label>
+
+<input 
+name="title"
+required
+>
+
+
+<label>
+Category
+</label>
+
+<select name="category">
+
+<option value="HEALTH">
+Health
+</option>
+
+<option value="FOOD">
+Food
+</option>
+
+<option value="FIRST_TIMES">
+First Times
+</option>
+
+<option value="OTHER">
+Other
+</option>
+
+</select>
+
+
+<label>
+Content
+</label>
+
+<textarea name="content"></textarea>
+
+
+<button>
+Save
+</button>
+
+
+</form>
