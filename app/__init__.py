@@ -16,7 +16,7 @@ def create_app():
 
     login_manager.init_app(app)
 
-    from app.models import User, Child, Note
+    from app.models import User, Child, Note, Photo
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -40,5 +40,9 @@ def create_app():
     from app.notes import notes
 
     app.register_blueprint(notes)
+
+    from app.gallery import gallery
+
+    app.register_blueprint(gallery)
 
     return app

@@ -12,7 +12,7 @@ class NoteCategory(Enum):
     FIRST_TIMES = "First Times"
 
     OTHER = "Other"
-    
+
 
 class User(db.Model, UserMixin):
 
@@ -76,6 +76,12 @@ class Child(db.Model):
         cascade="all, delete"
     )
 
+    photos = db.relationship(
+        "Photo",
+        back_populates="child",
+        cascade="all, delete"
+    )
+
     def __repr__(self):
         return f"<Child {self.name}>"
 
@@ -104,4 +110,47 @@ class Note(db.Model):
     child = db.relationship(
         "Child",
         back_populates="notes"
+    )
+
+
+class Photo(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    title = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    description = db.Column(
+        db.Text
+    )
+
+    filename = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
+    original_filename = db.Column(
+        db.String(255),
+        nullable=False
+    )
+
+    upload_date = db.Column(
+        db.Date,
+        nullable=False
+    )
+
+    child_id = db.Column(
+        db.Integer,
+        db.ForeignKey("child.id"),
+        nullable=False
+    )
+
+    child = db.relationship(
+        "Child",
+        back_populates="photos"
     )

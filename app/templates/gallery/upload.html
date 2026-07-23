@@ -1,0 +1,37 @@
+<h1>Upload photo for {{ child.name }}</h1>
+
+<form
+    method="POST"
+    enctype="multipart/form-data">
+
+    <label>Title</label>
+
+    <input
+        type="text"
+        name="title"
+        required>
+
+    <br><br>
+
+    <label>Description</label>
+
+    <textarea
+        name="description"></textarea>
+
+    <br><br>
+
+    <label>Photo</label>
+
+    <input
+        type="file"
+        name="photo"
+        accept=".jpg,.jpeg,.png"
+        required>
+
+    <br><br>
+
+    <button type="submit">
+        Upload
+    </button>
+
+</form>
