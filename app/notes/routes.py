@@ -17,6 +17,8 @@ from app.notes import notes
 from app.extensions import db
 from app.models import Child, Note, NoteCategory
 
+from app.utils.permissions import has_child_access
+
 
 @notes.route(
     '/children/<int:child_id>/notes/create',
@@ -28,7 +30,7 @@ def create_note(child_id):
     child = Child.query.get_or_404(child_id)
 
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
 
@@ -75,7 +77,7 @@ def list_notes(child_id):
     child = Child.query.get_or_404(child_id)
 
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
 
@@ -127,7 +129,7 @@ def edit_note(id):
     note = Note.query.get_or_404(id)
 
 
-    if note.child.parent_id != current_user.id:
+    if not has_child_access(note.child, current_user):
         abort(403)
 
 
@@ -167,7 +169,7 @@ def delete_note(id):
     note = Note.query.get_or_404(id)
 
 
-    if note.child.parent_id != current_user.id:
+    if not has_child_access(note.child, current_user):
         abort(403)
 
 

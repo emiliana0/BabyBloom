@@ -1,0 +1,61 @@
+<h1>
+
+Pending requests
+
+</h1>
+
+
+{% for request in requests %}
+
+<hr>
+
+<h3>
+
+{{ request.requester.username }}
+
+</h3>
+
+
+<p>
+
+Child:
+
+{{ request.child.name }}
+
+</p>
+
+
+<form
+method="POST"
+action="{{ url_for('sharing.approve_request', request_id=request.id) }}">
+
+<button>
+
+Approve
+
+</button>
+
+</form>
+
+
+<form
+method="POST"
+action="{{ url_for('sharing.reject_request', request_id=request.id) }}">
+
+<button>
+
+Reject
+
+</button>
+
+</form>
+
+{% else %}
+
+<p>
+
+No pending requests.
+
+</p>
+
+{% endfor %}

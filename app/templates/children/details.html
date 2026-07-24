@@ -1,0 +1,33 @@
+<h1>{{ child.name }}</h1>
+
+<p>
+    Born: {{ child.birth_date }}
+</p>
+
+<hr>
+
+<a href="{{ url_for('notes.list_notes', child_id=child.id) }}">
+    Notes
+</a>
+
+<br><br>
+
+<a href="{{ url_for('gallery.list_photos', child_id=child.id) }}">
+    Gallery
+</a>
+
+{% if child.parent_id == current_user.id %}
+
+<hr>
+
+<a href="{{ url_for('children.edit_child', id=child.id) }}">
+    Edit profile
+</a>
+
+<br><br>
+
+<a href="{{ url_for('sharing.manage_sharing', child_id=child.id) }}">
+    Manage sharing
+</a>
+
+{% endif %}

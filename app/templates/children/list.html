@@ -1,3 +1,4 @@
+<h2>My children</h2>
 {% for child in children %}
 
 <h3>
@@ -24,5 +25,30 @@
     </button>
 </form>
 
+<a href="
+{{ url_for(
+    'sharing.manage_sharing',
+    child_id=child.id
+) }}">
+    Manage sharing
+</a>
+
+
+{% endfor %}
+
+<h2>Shared with me</h2>
+
+{% for child in shared_children %}
+
+<h3>{{ child.name }}</h3>
+
+<p>
+    Born:
+    {{ child.birth_date }}
+</p>
+
+<a href="{{ url_for('children.view_child', id=child.id) }}">
+    Open
+</a>
 
 {% endfor %}

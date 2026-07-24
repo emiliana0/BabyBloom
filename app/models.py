@@ -6,12 +6,15 @@ from enum import Enum
 class NoteCategory(Enum):
 
     HEALTH = "Health"
-
     FOOD = "Food"
-
     FIRST_TIMES = "First Times"
-
     OTHER = "Other"
+
+class RequestStatus(Enum):
+    
+    PENDING = "Pending"
+    APPROVED = "Approved"
+    REJECTED = "Rejected"
 
 
 class User(db.Model, UserMixin):
@@ -36,9 +39,15 @@ class User(db.Model, UserMixin):
     )
 
     children = db.relationship(
-    'Child',
-    back_populates='parent',
-    cascade='all, delete'
+        'Child',
+        back_populates='parent',
+        cascade='all, delete'
+    )
+
+    shared_children = db.relationship(
+        "SharedAccess",
+        backref="user",
+        cascade="all, delete-orphan"
     )
 
     def __repr__(self):
@@ -80,6 +89,12 @@ class Child(db.Model):
         "Photo",
         back_populates="child",
         cascade="all, delete"
+    )
+
+    shared_users = db.relationship(
+        "SharedAccess",
+        backref="child",
+        cascade="all, delete-orphan"
     )
 
     def __repr__(self):
@@ -153,4 +168,99 @@ class Photo(db.Model):
     child = db.relationship(
         "Child",
         back_populates="photos"
+    )
+
+class ShareCode(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    code = db.Column(
+        db.String(6),
+        unique=True,
+        nullable=False
+    )
+
+    created_at = db.Column(
+        db.DateTime,
+        nullable=False
+    )
+
+    expires_at = db.Column(
+        db.DateTime,
+        nullable=False
+    )
+
+    active = db.Column(
+        db.Boolean,
+        default=True
+    )
+
+    used = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False
+    )
+
+    child_id = db.Column(
+        db.Integer,
+        db.ForeignKey("child.id"),
+        nullable=False
+    )
+
+    child = db.relationship(
+        "Child",
+        backref="share_codes"
+    )
+
+class AccessRequest(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    requester_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id")
+    )
+
+    child_id = db.Column(
+        db.Integer,
+        db.ForeignKey("child.id")
+    )
+
+    status = db.Column(
+        db.Enum(RequestStatus),
+        default=RequestStatus.PENDING,
+        nullable=False
+    )
+
+    requester = db.relationship(
+        "User",
+        backref="access_requests"
+    )
+
+    child = db.relationship(
+        "Child",
+        backref="access_requests"
+    )
+
+class SharedAccess(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey("user.id")
+    )
+
+    child_id = db.Column(
+        db.Integer,
+        db.ForeignKey("child.id")
     )

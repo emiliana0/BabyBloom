@@ -23,6 +23,8 @@ from app.gallery import gallery
 from app.extensions import db
 from app.models import Child, Photo
 
+from app.utils.permissions import has_child_access
+
 ALLOWED_EXTENSIONS = {
     "png",
     "jpg",
@@ -49,7 +51,7 @@ def upload_photo(child_id):
 
     child = Child.query.get_or_404(child_id)
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
     if request.method == "POST":
@@ -118,7 +120,7 @@ def list_photos(child_id):
 
     child = Child.query.get_or_404(child_id)
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
     photos = Photo.query.filter_by(
@@ -144,7 +146,7 @@ def edit_photo(photo_id):
 
     child = photo.child
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
 
@@ -189,7 +191,7 @@ def delete_photo(photo_id):
     child = photo.child
 
 
-    if child.parent_id != current_user.id:
+    if not has_child_access(child, current_user):
         abort(403)
 
 

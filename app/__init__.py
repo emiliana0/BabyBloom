@@ -45,4 +45,8 @@ def create_app():
 
     app.register_blueprint(gallery)
 
+    from app.sharing import sharing
+
+    app.register_blueprint(sharing)
+
     return app

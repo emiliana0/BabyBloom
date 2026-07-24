@@ -1,10 +1,18 @@
-from flask import render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from app.extensions import db
 from app.models import Child
 from app.children import children
 from datetime import datetime
 
+from flask import (
+    render_template,
+    request,
+    redirect,
+    url_for,
+    abort
+)
+
+from app.utils.permissions import has_child_access
 
 
 @children.route('/children/create', methods=['GET','POST'])
@@ -46,10 +54,16 @@ def my_children():
 
     children = current_user.children
 
+    shared_children = [
+        access.child
+        for access in current_user.shared_children
+    ]
+
 
     return render_template(
         'children/list.html',
-        children=children
+        children=children,
+        shared_children=shared_children
     )
 
 @children.route('/children/edit/<int:id>', methods=['GET', 'POST'])
@@ -104,4 +118,18 @@ def delete_child(id):
 
     return redirect(
         url_for('children.my_children')
+    )
+
+@children.route("/children/<int:id>")
+@login_required
+def view_child(id):
+
+    child = Child.query.get_or_404(id)
+
+    if not has_child_access(child, current_user):
+        abort(403)
+
+    return render_template(
+        "children/details.html",
+        child=child
     )

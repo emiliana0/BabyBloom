@@ -1,0 +1,48 @@
+<h1>
+    Sharing for {{ child.name }}
+</h1>
+
+
+<h2>
+    Shared with:
+</h2>
+
+
+{% for access in shared_accesses %}
+
+<hr>
+
+
+<h3>
+    {{ access.user.username }}
+</h3>
+
+
+<p>
+    Access granted:
+    {{ access.granted_at }}
+</p>
+
+
+<form method="POST"
+      action="
+      {{ url_for(
+          'sharing.remove_access',
+          access_id=access.id
+      ) }}">
+
+    <button type="submit">
+        Remove access
+    </button>
+
+</form>
+
+
+{% else %}
+
+<p>
+    Nobody has access yet.
+</p>
+
+
+{% endfor %}

@@ -1,0 +1,48 @@
+<h1>
+
+Share access
+
+</h1>
+
+
+<h3>
+
+{{ child.name }}
+
+</h3>
+
+
+<form method="POST">
+
+<button>
+
+Generate code
+
+</button>
+
+</form>
+
+
+{% if code %}
+
+<hr>
+
+<h2>
+
+Share code
+
+</h2>
+
+<h1>
+
+{{ code }}
+
+</h1>
+
+<p>
+
+Valid for 10 minutes.
+
+</p>
+
+{% endif %}
