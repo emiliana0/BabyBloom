@@ -49,4 +49,8 @@ def create_app():
 
     app.register_blueprint(sharing)
 
+    from app.admin import admin
+
+    app.register_blueprint(admin)
+
     return app

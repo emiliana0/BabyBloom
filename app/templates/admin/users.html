@@ -1,0 +1,74 @@
+{% for user in users %}
+
+<h3>{{ user.username }}</h3>
+
+<p>
+    {{ user.email }}
+</p>
+
+<p>
+    Admin:
+    {{ user.is_admin }}
+</p>
+
+{% if not user.is_admin %}
+
+<form
+    method="POST"
+    action="{{ url_for(
+        'admin.make_admin',
+        id=user.id
+    ) }}"
+>
+
+<button type="submit">
+
+Make Admin
+
+</button>
+
+</form>
+
+{% else %}
+
+<form
+    method="POST"
+    action="{{ url_for(
+        'admin.remove_admin',
+        id=user.id
+    ) }}"
+>
+
+<button type="submit">
+
+Remove Admin
+
+</button>
+
+</form>
+
+{% endif %}
+
+{% if user.id != current_user.id %}
+
+<form
+    method="POST"
+    action="{{ url_for(
+        'admin.delete_user',
+        id=user.id
+    ) }}"
+>
+
+<button type="submit">
+    Delete User
+</button>
+
+</form>
+
+{% endif %}
+
+
+<hr>
+
+
+{% endfor %}

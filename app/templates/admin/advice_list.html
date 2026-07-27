@@ -1,0 +1,55 @@
+<h1>Advice</h1>
+
+<a href="{{ url_for('admin.create_advice') }}">
+    Add Advice
+</a>
+
+<hr>
+
+{% if advice_list %}
+
+    {% for advice in advice_list %}
+
+    <h3>
+        {{ advice.title }}
+    </h3>
+
+    <p>
+        {{ advice.content }}
+    </p>
+
+
+    <a href="{{ url_for(
+        'admin.edit_advice',
+        id=advice.id
+    ) }}">
+        Edit
+    </a>
+
+    <form
+        method="POST"
+        action="{{ url_for(
+            'admin.delete_advice',
+            id=advice.id
+        ) }}"
+    >
+
+    <button type="submit">
+
+    Delete
+
+    </button>
+
+    </form>
+
+    <hr>
+
+    {% endfor %}
+
+{% else %}
+
+<p>
+    No advice available.
+</p>
+
+{% endif %}

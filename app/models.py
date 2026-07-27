@@ -50,6 +50,12 @@ class User(db.Model, UserMixin):
         cascade="all, delete-orphan"
     )
 
+    is_admin = db.Column(
+        db.Boolean,
+        default=False,
+        nullable=False
+    )
+
     def __repr__(self):
         return f"<User {self.username}>"
     
@@ -94,6 +100,12 @@ class Child(db.Model):
     shared_users = db.relationship(
         "SharedAccess",
         backref="child",
+        cascade="all, delete-orphan"
+    )
+
+    share_codes = db.relationship(
+        "ShareCode",
+        back_populates="child",
         cascade="all, delete-orphan"
     )
 
@@ -212,7 +224,7 @@ class ShareCode(db.Model):
 
     child = db.relationship(
         "Child",
-        backref="share_codes"
+        back_populates="share_codes"
     )
 
 class AccessRequest(db.Model):
@@ -263,4 +275,21 @@ class SharedAccess(db.Model):
     child_id = db.Column(
         db.Integer,
         db.ForeignKey("child.id")
+    )
+
+class Advice(db.Model):
+
+    id = db.Column(
+        db.Integer,
+        primary_key=True
+    )
+
+    title = db.Column(
+        db.String(100),
+        nullable=False
+    )
+
+    content = db.Column(
+        db.Text,
+        nullable=False
     )

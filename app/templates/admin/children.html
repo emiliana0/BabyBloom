@@ -1,0 +1,48 @@
+<h1>Children</h1>
+
+
+{% for child in children %}
+
+
+<h3>
+    {{ child.name }}
+</h3>
+
+
+<p>
+    Birth date:
+    {{ child.birth_date }}
+</p>
+
+
+<p>
+    Parent:
+
+    {{ child.parent.username }}
+
+</p>
+
+
+<form
+method="POST"
+action="{{ url_for(
+    'admin.delete_child',
+    id=child.id
+) }}"
+>
+
+
+<button type="submit">
+
+Delete
+
+</button>
+
+
+</form>
+
+
+<hr>
+
+
+{% endfor %}

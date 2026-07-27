@@ -1,0 +1,51 @@
+<h1>Edit Advice</h1>
+
+<form method="POST">
+
+<label>
+
+Title
+
+</label>
+
+<br>
+
+<input
+    type="text"
+    name="title"
+    value="{{ advice.title }}"
+    required
+>
+
+<br><br>
+
+<label>
+
+Content
+
+</label>
+
+<br>
+
+<textarea
+    name="content"
+    rows="10"
+    cols="70"
+    required
+>{{ advice.content }}</textarea>
+
+<br><br>
+
+<button type="submit">
+
+Save
+
+</button>
+
+</form>
+
+<br>
+
+<a href="{{ url_for('admin.list_advice') }}">
+    Back
+</a>
