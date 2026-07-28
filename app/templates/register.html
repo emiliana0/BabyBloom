@@ -1,32 +1,130 @@
-<h1>Register</h1>
+{% extends "base.html" %}
+
+{% block content %}
 
 
-<form method="POST">
-
-    Username:
-    <input name="username">
-
-    <br>
+<div class="row justify-content-center">
 
 
-    Email:
-    <input name="email">
+    <div class="col-md-5">
 
 
-    <br>
+        <div class="card shadow-sm mt-5">
 
 
-    Password:
-    <input 
-        type="password"
-        name="password"
-    >
+            <div class="card-body p-4">
 
 
-    <br>
+                <h1 class="text-center mb-4">
+                    Register
+                </h1>
 
-    <button>
-        Register
-    </button>
 
-</form>
+                <form method="POST">
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="username"
+                            class="form-label"
+                        >
+                            Username
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="email"
+                            class="form-label"
+                        >
+                            Email
+                        </label>
+
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="password"
+                            class="form-label"
+                        >
+                            Password
+                        </label>
+
+
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100"
+                    >
+                        Create Account
+                    </button>
+
+
+                </form>
+
+
+                <div class="text-center mt-3">
+
+                    <p class="mb-0">
+
+                        Already have an account?
+
+                        <a href="{{ url_for('auth.login') }}">
+                            Login
+                        </a>
+
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

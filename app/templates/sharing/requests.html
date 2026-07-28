@@ -1,61 +1,140 @@
-<h1>
+{% extends "base.html" %}
 
-Pending requests
-
-</h1>
+{% block content %}
 
 
-{% for request in requests %}
-
-<hr>
-
-<h3>
-
-{{ request.requester.username }}
-
-</h3>
+<div class="container mt-4">
 
 
-<p>
-
-Child:
-
-{{ request.child.name }}
-
-</p>
+    <h1 class="mb-4">
+        🔔 Pending Requests
+    </h1>
 
 
-<form
-method="POST"
-action="{{ url_for('sharing.approve_request', request_id=request.id) }}">
 
-<button>
-
-Approve
-
-</button>
-
-</form>
+    {% if requests %}
 
 
-<form
-method="POST"
-action="{{ url_for('sharing.reject_request', request_id=request.id) }}">
 
-<button>
+    <div class="row g-3">
 
-Reject
 
-</button>
+        {% for request in requests %}
 
-</form>
 
-{% else %}
 
-<p>
+        <div class="col-md-6">
 
-No pending requests.
 
-</p>
+            <div class="card shadow-sm">
 
-{% endfor %}
+
+                <div class="card-body">
+
+
+                    <h5 class="card-title">
+
+                        {{ request.requester.username }}
+
+                    </h5>
+
+
+
+                    <p class="card-text">
+
+                        Requests access to:
+
+                        <strong>
+                            {{ request.child.name }}
+                        </strong>
+
+                    </p>
+
+
+
+                    <div class="d-flex gap-2">
+
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'sharing.approve_request',
+                                request_id=request.id
+                            ) }}"
+                        >
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-success"
+                            >
+                                Approve
+                            </button>
+
+
+                        </form>
+
+
+
+
+                        <form
+                            method="POST"
+                            action="{{ url_for(
+                                'sharing.reject_request',
+                                request_id=request.id
+                            ) }}"
+                        >
+
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+                                Reject
+                            </button>
+
+
+                        </form>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+    {% else %}
+
+
+
+    <div class="alert alert-info">
+
+        No pending requests.
+
+    </div>
+
+
+
+    {% endif %}
+
+
+
+</div>
+
+
+{% endblock %}

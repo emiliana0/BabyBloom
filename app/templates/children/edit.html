@@ -1,27 +1,103 @@
-<h1>Edit child</h1>
+{% extends "base.html" %}
+
+{% block content %}
 
 
-<form method="POST">
-
-    <label>Name:</label>
-    <input 
-        type="text" 
-        name="name"
-        value="{{ child.name }}"
-    >
+<div class="row justify-content-center">
 
 
-    <label>Birth date:</label>
-
-    <input
-        type="date"
-        name="birth_date"
-        value="{{ child.birth_date }}"
-    >
+    <div class="col-md-6">
 
 
-    <button type="submit">
-        Save
-    </button>
+        <div class="card shadow-sm mt-5">
 
-</form>
+
+            <div class="card-body p-4">
+
+
+                <h1 class="mb-4 text-center">
+                    Edit Child
+                </h1>
+
+
+                <form method="POST">
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="name"
+                            class="form-label"
+                        >
+                            Name
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            name="name"
+                            value="{{ child.name }}"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="birth_date"
+                            class="form-label"
+                        >
+                            Birth Date
+                        </label>
+
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="birth_date"
+                            name="birth_date"
+                            value="{{ child.birth_date }}"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Save Changes
+                    </button>
+
+
+                    <a
+                        href="{{ url_for('children.my_children') }}"
+                        class="btn btn-secondary ms-2"
+                    >
+                        Back
+                    </a>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,51 +1,86 @@
-<h1>Edit Advice</h1>
+{% extends "base.html" %}
 
-<form method="POST">
+{% block content %}
 
-<label>
+<div class="card shadow-sm">
 
-Title
+    <div class="card-body">
 
-</label>
+        <h1 class="mb-4">
+            Edit Advice
+        </h1>
 
-<br>
 
-<input
-    type="text"
-    name="title"
-    value="{{ advice.title }}"
-    required
->
+        <form method="POST">
 
-<br><br>
 
-<label>
+            <div class="mb-3">
 
-Content
+                <label
+                    for="title"
+                    class="form-label"
+                >
+                    Title
+                </label>
 
-</label>
 
-<br>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    value="{{ advice.title }}"
+                    required
+                >
 
-<textarea
-    name="content"
-    rows="10"
-    cols="70"
-    required
->{{ advice.content }}</textarea>
+            </div>
 
-<br><br>
 
-<button type="submit">
 
-Save
+            <div class="mb-3">
 
-</button>
+                <label
+                    for="content"
+                    class="form-label"
+                >
+                    Content
+                </label>
 
-</form>
 
-<br>
+                <textarea
+                    class="form-control"
+                    id="content"
+                    name="content"
+                    rows="10"
+                    required
+                >{{ advice.content }}</textarea>
 
-<a href="{{ url_for('admin.list_advice') }}">
-    Back
-</a>
+            </div>
+
+
+
+            <button
+                type="submit"
+                class="btn btn-success"
+            >
+                Save Changes
+            </button>
+
+
+            <a
+                href="{{ url_for('admin.list_advice') }}"
+                class="btn btn-secondary ms-2"
+            >
+                Back
+            </a>
+
+
+        </form>
+
+
+    </div>
+
+</div>
+
+
+{% endblock %}

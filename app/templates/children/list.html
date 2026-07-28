@@ -1,54 +1,191 @@
-<h2>My children</h2>
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<h1 class="mb-4">
+    My Children
+</h1>
+
+
+<div class="row g-4">
+
+
 {% for child in children %}
 
-<h3>
-    {{ child.name }}
-</h3>
 
-<p>
-    Born:
-    {{ child.birth_date }}
-</p>
+<div class="col-md-4">
 
 
-<a href="
-{{ url_for(
-    'children.edit_child',
-    id=child.id
-) }}">
-    Edit
-</a>
+    <div class="card shadow-sm h-100">
 
-<form method="POST" action="{{ url_for('children.delete_child', id=child.id) }}">
-    <button type="submit">
-        Delete
-    </button>
-</form>
 
-<a href="
-{{ url_for(
-    'sharing.manage_sharing',
-    child_id=child.id
-) }}">
-    Manage sharing
-</a>
+        <div class="card-body">
+
+
+            <h5 class="card-title">
+                {{ child.name }}
+            </h5>
+
+
+            <p class="card-text">
+
+                <strong>Born:</strong>
+
+                {{ child.birth_date }}
+
+            </p>
+
+
+
+            <div class="d-flex flex-wrap gap-2">
+
+
+                <a
+                    href="{{ url_for(
+                        'children.edit_child',
+                        id=child.id
+                    ) }}"
+                    class="btn btn-warning"
+                >
+                    Edit
+                </a>
+
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for(
+                        'children.delete_child',
+                        id=child.id
+                    ) }}"
+                >
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger"
+                    >
+                        Delete
+                    </button>
+
+                </form>
+
+
+
+                <a
+                    href="{{ url_for(
+                        'sharing.manage_sharing',
+                        child_id=child.id
+                    ) }}"
+                    class="btn btn-primary"
+                >
+                    Manage Sharing
+                </a>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% else %}
+
+
+<div class="alert alert-info">
+
+    You don't have any children profiles yet.
+
+</div>
 
 
 {% endfor %}
 
-<h2>Shared with me</h2>
+
+</div>
+
+
+
+<hr class="my-5">
+
+
+
+<h1 class="mb-4">
+    Shared With Me
+</h1>
+
+
+
+<div class="row g-4">
+
 
 {% for child in shared_children %}
 
-<h3>{{ child.name }}</h3>
 
-<p>
-    Born:
-    {{ child.birth_date }}
-</p>
+<div class="col-md-4">
 
-<a href="{{ url_for('children.view_child', id=child.id) }}">
-    Open
-</a>
+
+    <div class="card shadow-sm h-100">
+
+
+        <div class="card-body">
+
+
+            <h5 class="card-title">
+                {{ child.name }}
+            </h5>
+
+
+            <p class="card-text">
+
+                <strong>Born:</strong>
+
+                {{ child.birth_date }}
+
+            </p>
+
+
+
+            <a
+                href="{{ url_for(
+                    'children.view_child',
+                    id=child.id
+                ) }}"
+                class="btn btn-success"
+            >
+                Open
+            </a>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% else %}
+
+
+<div class="alert alert-secondary">
+
+    No shared children.
+
+</div>
+
 
 {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

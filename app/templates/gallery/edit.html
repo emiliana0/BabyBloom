@@ -1,58 +1,129 @@
-<h1>
-Edit photo
-</h1>
+{% extends "base.html" %}
+
+{% block content %}
 
 
-<form method="POST">
+<div class="row justify-content-center">
 
 
-<label>
-Title
-</label>
-
-<input
-type="text"
-name="title"
-value="{{ photo.title }}"
->
+    <div class="col-md-6">
 
 
-<br>
+        <div class="card shadow-sm mt-5">
 
 
-<label>
-Description
-</label>
+            <div class="card-body p-4">
 
 
-<textarea
-name="description"
->
-{{ photo.description }}
-</textarea>
+                <h1 class="mb-4 text-center">
+                    Edit Photo
+                </h1>
 
 
-<br>
+                <form method="POST">
 
 
-<label>
-Date
-</label>
+                    <div class="mb-3">
+
+                        <label
+                            for="title"
+                            class="form-label"
+                        >
+                            Title
+                        </label>
 
 
-<input
-type="date"
-name="date"
-value="{{ photo.upload_date }}"
->
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            value="{{ photo.title }}"
+                            required
+                        >
+
+                    </div>
 
 
-<br>
+
+                    <div class="mb-3">
+
+                        <label
+                            for="description"
+                            class="form-label"
+                        >
+                            Description
+                        </label>
 
 
-<button type="submit">
-Save
-</button>
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="5"
+                            required
+                        >{{ photo.description }}</textarea>
 
 
-</form>
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="date"
+                            class="form-label"
+                        >
+                            Date
+                        </label>
+
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="date"
+                            name="date"
+                            value="{{ photo.upload_date }}"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Save Changes
+                    </button>
+
+
+                    <a
+                        href="{{ url_for(
+                            'gallery.list_photos',
+                            child_id=photo.child.id
+                        ) }}"
+                        class="btn btn-secondary ms-2"
+                    >
+                        Back
+                    </a>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

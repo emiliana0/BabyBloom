@@ -1,37 +1,130 @@
-<h1>Upload photo for {{ child.name }}</h1>
+{% extends "base.html" %}
 
-<form
-    method="POST"
-    enctype="multipart/form-data">
+{% block content %}
 
-    <label>Title</label>
 
-    <input
-        type="text"
-        name="title"
-        required>
+<div class="row justify-content-center">
 
-    <br><br>
 
-    <label>Description</label>
+    <div class="col-md-6">
 
-    <textarea
-        name="description"></textarea>
 
-    <br><br>
+        <div class="card shadow-sm mt-5">
 
-    <label>Photo</label>
 
-    <input
-        type="file"
-        name="photo"
-        accept=".jpg,.jpeg,.png"
-        required>
+            <div class="card-body p-4">
 
-    <br><br>
 
-    <button type="submit">
-        Upload
-    </button>
+                <h1 class="mb-4 text-center">
+                    Upload Photo for {{ child.name }}
+                </h1>
 
-</form>
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="title"
+                            class="form-label"
+                        >
+                            Title
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="title"
+                            name="title"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="description"
+                            class="form-label"
+                        >
+                            Description
+                        </label>
+
+
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="5"
+                        ></textarea>
+
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="photo"
+                            class="form-label"
+                        >
+                            Choose Photo
+                        </label>
+
+
+                        <input
+                            type="file"
+                            class="form-control"
+                            id="photo"
+                            name="photo"
+                            accept=".jpg,.jpeg,.png"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Upload Photo
+                    </button>
+
+
+                    <a
+                        href="{{ url_for(
+                            'gallery.list_photos',
+                            child_id=child.id
+                        ) }}"
+                        class="btn btn-secondary ms-2"
+                    >
+                        Back
+                    </a>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

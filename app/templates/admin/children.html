@@ -1,48 +1,60 @@
-<h1>Children</h1>
+{% extends "base.html" %}
 
+{% block content %}
+
+<h1 class="mb-4">
+    Children
+</h1>
 
 {% for child in children %}
 
+<div class="card mb-3 shadow-sm">
 
-<h3>
-    {{ child.name }}
-</h3>
+    <div class="card-body">
 
+        <h5 class="card-title">
+            {{ child.name }}
+        </h5>
 
-<p>
-    Birth date:
-    {{ child.birth_date }}
-</p>
+        <p class="mb-1">
+            <strong>Birth date:</strong>
+            {{ child.birth_date }}
+        </p>
 
+        <p class="mb-3">
+            <strong>Parent:</strong>
+            {{ child.parent.username }}
+        </p>
 
-<p>
-    Parent:
+        <form
+            method="POST"
+            action="{{ url_for(
+                'admin.delete_child',
+                id=child.id
+            ) }}"
+        >
 
-    {{ child.parent.username }}
+            <button
+                type="submit"
+                class="btn btn-danger"
+            >
+                Delete Child
+            </button>
 
-</p>
+        </form>
 
+    </div>
 
-<form
-method="POST"
-action="{{ url_for(
-    'admin.delete_child',
-    id=child.id
-) }}"
->
+</div>
 
+{% else %}
 
-<button type="submit">
+<div class="alert alert-info">
 
-Delete
+    There are no child profiles.
 
-</button>
-
-
-</form>
-
-
-<hr>
-
+</div>
 
 {% endfor %}
+
+{% endblock %}

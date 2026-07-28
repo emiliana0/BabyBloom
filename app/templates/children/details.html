@@ -1,33 +1,120 @@
-<h1>{{ child.name }}</h1>
+{% extends "base.html" %}
 
-<p>
-    Born: {{ child.birth_date }}
-</p>
+{% block content %}
 
-<hr>
 
-<a href="{{ url_for('notes.list_notes', child_id=child.id) }}">
-    Notes
-</a>
+<div class="row justify-content-center">
 
-<br><br>
 
-<a href="{{ url_for('gallery.list_photos', child_id=child.id) }}">
-    Gallery
-</a>
+    <div class="col-md-8">
 
-{% if child.parent_id == current_user.id %}
 
-<hr>
+        <div class="card shadow-sm mt-4">
 
-<a href="{{ url_for('children.edit_child', id=child.id) }}">
-    Edit profile
-</a>
 
-<br><br>
+            <div class="card-body p-4">
 
-<a href="{{ url_for('sharing.manage_sharing', child_id=child.id) }}">
-    Manage sharing
-</a>
 
-{% endif %}
+                <h1 class="mb-3">
+                    {{ child.name }}
+                </h1>
+
+
+                <p class="text-muted">
+
+                    <strong>Born:</strong>
+
+                    {{ child.birth_date }}
+
+                </p>
+
+
+                <hr>
+
+
+                <div class="d-flex gap-3 flex-wrap">
+
+
+                    <a
+                        href="{{ url_for(
+                            'notes.list_notes',
+                            child_id=child.id
+                        ) }}"
+                        class="btn btn-primary"
+                    >
+                        📝 Notes
+                    </a>
+
+
+
+                    <a
+                        href="{{ url_for(
+                            'gallery.list_photos',
+                            child_id=child.id
+                        ) }}"
+                        class="btn btn-success"
+                    >
+                        📷 Gallery
+                    </a>
+
+
+                </div>
+
+
+
+                {% if child.parent_id == current_user.id %}
+
+
+                <hr>
+
+
+                <h5 class="mb-3">
+                    Parent Actions
+                </h5>
+
+
+                <div class="d-flex gap-3 flex-wrap">
+
+
+                    <a
+                        href="{{ url_for(
+                            'children.edit_child',
+                            id=child.id
+                        ) }}"
+                        class="btn btn-warning"
+                    >
+                        Edit Profile
+                    </a>
+
+
+
+                    <a
+                        href="{{ url_for(
+                            'sharing.manage_sharing',
+                            child_id=child.id
+                        ) }}"
+                        class="btn btn-info"
+                    >
+                        Manage Sharing
+                    </a>
+
+
+                </div>
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,19 +1,94 @@
-<h1>Admin Panel</h1>
+{% extends "base.html" %}
 
-<hr>
+{% block content %}
 
-<a href="{{ url_for('admin.list_advice') }}">
-    Manage Advice
-</a>
+<h1 class="mb-4">
+    Admin Panel
+</h1>
 
-<br><br>
+<div class="row g-4">
 
-<a href="{{ url_for('admin.list_users') }}">
-    Manage Users
-</a>
+    <div class="col-md-4">
 
-<br><br>
+        <div class="card h-100 shadow-sm">
 
-<a href="{{ url_for('admin.list_children') }}">
-    Manage Children
-</a>
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Advice
+                </h5>
+
+                <p class="card-text">
+                    Create, edit and delete parenting advice.
+                </p>
+
+                <a
+                    href="{{ url_for('admin.list_advice') }}"
+                    class="btn btn-primary"
+                >
+                    Manage Advice
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Users
+                </h5>
+
+                <p class="card-text">
+                    Manage registered users and administrator permissions.
+                </p>
+
+                <a
+                    href="{{ url_for('admin.list_users') }}"
+                    class="btn btn-primary"
+                >
+                    Manage Users
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    Children
+                </h5>
+
+                <p class="card-text">
+                    View and manage all child profiles.
+                </p>
+
+                <a
+                    href="{{ url_for('admin.list_children') }}"
+                    class="btn btn-primary"
+                >
+                    Manage Children
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

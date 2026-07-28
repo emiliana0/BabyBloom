@@ -1,25 +1,93 @@
-<h1>Create child profile</h1>
+{% extends "base.html" %}
 
-<form method="POST">
-
-    <label>Name</label>
-    <input 
-        type="text" 
-        name="name"
-        required
-    >
+{% block content %}
 
 
-    <label>Birth date</label>
-    <input 
-        type="date"
-        name="birth_date"
-        required
-    >
+<div class="row justify-content-center">
 
 
-    <button type="submit">
-        Create
-    </button>
+    <div class="col-md-6">
 
-</form>
+
+        <div class="card shadow-sm mt-5">
+
+
+            <div class="card-body p-4">
+
+
+                <h1 class="mb-4 text-center">
+                    Create Child Profile
+                </h1>
+
+
+                <form method="POST">
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="name"
+                            class="form-label"
+                        >
+                            Name
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="name"
+                            name="name"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="mb-3">
+
+                        <label
+                            for="birth_date"
+                            class="form-label"
+                        >
+                            Birth Date
+                        </label>
+
+
+                        <input
+                            type="date"
+                            class="form-control"
+                            id="birth_date"
+                            name="birth_date"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success w-100"
+                    >
+                        Create Profile
+                    </button>
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

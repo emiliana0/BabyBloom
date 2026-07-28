@@ -1,74 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Users
+</h1>
+
 {% for user in users %}
 
-<h3>{{ user.username }}</h3>
+<div class="card mb-3 shadow-sm">
 
-<p>
-    {{ user.email }}
-</p>
+    <div class="card-body">
 
-<p>
-    Admin:
-    {{ user.is_admin }}
-</p>
+        <h5 class="card-title">
+            {{ user.username }}
+        </h5>
 
-{% if not user.is_admin %}
+        <p class="mb-1">
+            <strong>Email:</strong>
+            {{ user.email }}
+        </p>
 
-<form
-    method="POST"
-    action="{{ url_for(
-        'admin.make_admin',
-        id=user.id
-    ) }}"
->
+        <p class="mb-3">
 
-<button type="submit">
+            <strong>Administrator:</strong>
 
-Make Admin
+            {% if user.is_admin %}
 
-</button>
+                <span class="badge bg-success">
+                    Yes
+                </span>
 
-</form>
+            {% else %}
 
-{% else %}
+                <span class="badge bg-secondary">
+                    No
+                </span>
 
-<form
-    method="POST"
-    action="{{ url_for(
-        'admin.remove_admin',
-        id=user.id
-    ) }}"
->
+            {% endif %}
 
-<button type="submit">
+        </p>
 
-Remove Admin
+        <div class="d-flex gap-2 flex-wrap">
 
-</button>
+            {% if not user.is_admin %}
 
-</form>
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'admin.make_admin',
+                    id=user.id
+                ) }}"
+            >
 
-{% endif %}
+                <button
+                    type="submit"
+                    class="btn btn-success"
+                >
+                    Make Admin
+                </button>
 
-{% if user.id != current_user.id %}
+            </form>
 
-<form
-    method="POST"
-    action="{{ url_for(
-        'admin.delete_user',
-        id=user.id
-    ) }}"
->
+            {% else %}
 
-<button type="submit">
-    Delete User
-</button>
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'admin.remove_admin',
+                    id=user.id
+                ) }}"
+            >
 
-</form>
+                <button
+                    type="submit"
+                    class="btn btn-warning"
+                >
+                    Remove Admin
+                </button>
 
-{% endif %}
+            </form>
 
+            {% endif %}
 
-<hr>
+            {% if user.id != current_user.id %}
 
+            <form
+                method="POST"
+                action="{{ url_for(
+                    'admin.delete_user',
+                    id=user.id
+                ) }}"
+            >
+
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                >
+                    Delete User
+                </button>
+
+            </form>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
 
 {% endfor %}
+
+{% endblock %}

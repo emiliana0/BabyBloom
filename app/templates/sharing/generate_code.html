@@ -1,48 +1,93 @@
-<h1>
+{% extends "base.html" %}
 
-Share access
-
-</h1>
+{% block content %}
 
 
-<h3>
-
-{{ child.name }}
-
-</h3>
+<div class="row justify-content-center">
 
 
-<form method="POST">
-
-<button>
-
-Generate code
-
-</button>
-
-</form>
+    <div class="col-md-6">
 
 
-{% if code %}
+        <div class="card shadow-sm mt-5">
 
-<hr>
 
-<h2>
+            <div class="card-body p-4 text-center">
 
-Share code
 
-</h2>
+                <h1 class="mb-4">
+                    Share Access
+                </h1>
 
-<h1>
 
-{{ code }}
 
-</h1>
+                <h3 class="mb-4">
+                    for {{ child.name }}
+                </h3>
 
-<p>
 
-Valid for 10 minutes.
 
-</p>
+                <form method="POST">
 
-{% endif %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Generate Code
+                    </button>
+
+
+                </form>
+
+
+
+                {% if code %}
+
+
+                <hr class="my-4">
+
+
+
+                <h4>
+                    Share Code
+                </h4>
+
+
+
+                <div class="alert alert-success mt-3">
+
+
+                    <h1 class="display-4 fw-bold">
+                        {{ code }}
+                    </h1>
+
+
+                </div>
+
+
+
+                <p class="text-muted">
+
+                    This code is valid for 10 minutes.
+
+                </p>
+
+
+
+                {% endif %}
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}

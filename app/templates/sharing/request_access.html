@@ -1,49 +1,114 @@
-<h1>
+{% extends "base.html" %}
 
-Request access
-
-</h1>
+{% block content %}
 
 
-<form method="POST">
-
-<label>
-
-Child name
-
-</label>
-
-<br>
-
-<input
-type="text"
-name="child_name"
-required>
-
-<br><br>
+<div class="row justify-content-center">
 
 
-<label>
-
-Share code
-
-</label>
-
-<br>
-
-<input
-type="text"
-name="code"
-maxlength="6"
-required>
-
-<br><br>
+    <div class="col-md-6">
 
 
-<button>
+        <div class="card shadow-sm mt-5">
 
-Request access
 
-</button>
+            <div class="card-body p-4">
 
-</form>
+
+                <h1 class="mb-4 text-center">
+                    Request Access
+                </h1>
+
+
+
+                <form method="POST">
+
+
+
+                    <div class="mb-3">
+
+
+                        <label
+                            for="child_name"
+                            class="form-label"
+                        >
+                            Child Name
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="child_name"
+                            name="child_name"
+                            required
+                        >
+
+
+                    </div>
+
+
+
+
+                    <div class="mb-3">
+
+
+                        <label
+                            for="code"
+                            class="form-label"
+                        >
+                            Share Code
+                        </label>
+
+
+                        <input
+                            type="text"
+                            class="form-control text-uppercase"
+                            id="code"
+                            name="code"
+                            maxlength="6"
+                            placeholder="Enter 6-character code"
+                            required
+                        >
+
+
+                    </div>
+
+
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-success"
+                    >
+                        Request Access
+                    </button>
+
+
+                    <a
+                        href="{{ url_for(
+                            'children.my_children'
+                        ) }}"
+                        class="btn btn-secondary ms-2"
+                    >
+                        Back
+                    </a>
+
+
+
+                </form>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+{% endblock %}
