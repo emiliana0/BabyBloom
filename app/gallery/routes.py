@@ -24,10 +24,12 @@ from app.extensions import db
 from app.models import Child, Photo
 
 from app.utils.permissions import has_child_access
+from app.utils.decorators import user_required
+
 
 ALLOWED_EXTENSIONS = {
     "png",
-    "jpg",
+    "jpg"
     "jpeg"
 }
 
@@ -47,6 +49,7 @@ def allowed_file(filename):
     methods=["GET", "POST"]
 )
 @login_required
+@user_required
 def upload_photo(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -116,6 +119,7 @@ def upload_photo(child_id):
     "/children/<int:child_id>/gallery"
 )
 @login_required
+@user_required
 def list_photos(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -140,6 +144,7 @@ def list_photos(child_id):
     methods=["GET", "POST"]
 )
 @login_required
+@user_required
 def edit_photo(photo_id):
 
     photo = Photo.query.get_or_404(photo_id)
@@ -183,6 +188,7 @@ def edit_photo(photo_id):
     methods=["POST"]
 )
 @login_required
+@user_required
 def delete_photo(photo_id):
 
     photo = Photo.query.get_or_404(photo_id)

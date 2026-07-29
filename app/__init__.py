@@ -53,4 +53,8 @@ def create_app():
 
     app.register_blueprint(admin)
 
+    from app.advice import advice
+
+    app.register_blueprint(advice)
+
     return app

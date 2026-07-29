@@ -18,6 +18,7 @@ from app.extensions import db
 from app.models import Child, Note, NoteCategory
 
 from app.utils.permissions import has_child_access
+from app.utils.decorators import user_required
 
 
 @notes.route(
@@ -25,6 +26,7 @@ from app.utils.permissions import has_child_access
     methods=['GET', 'POST']
 )
 @login_required
+@user_required
 def create_note(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -72,6 +74,7 @@ def create_note(child_id):
     '/children/<int:child_id>/notes'
 )
 @login_required
+@user_required
 def list_notes(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -124,6 +127,7 @@ def list_notes(child_id):
     methods=['GET','POST']
 )
 @login_required
+@user_required
 def edit_note(id):
 
     note = Note.query.get_or_404(id)
@@ -164,6 +168,7 @@ def edit_note(id):
     methods=['POST']
 )
 @login_required
+@user_required
 def delete_note(id):
 
     note = Note.query.get_or_404(id)

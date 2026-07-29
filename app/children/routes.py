@@ -4,6 +4,7 @@ from app.models import Child
 from app.children import children
 from datetime import datetime
 
+
 from flask import (
     render_template,
     request,
@@ -13,10 +14,12 @@ from flask import (
 )
 
 from app.utils.permissions import has_child_access
+from app.utils.decorators import user_required
 
 
 @children.route('/children/create', methods=['GET','POST'])
 @login_required
+@user_required
 def create_child():
 
     if request.method == 'POST':
@@ -50,6 +53,7 @@ def create_child():
 
 @children.route('/children')
 @login_required
+@user_required
 def my_children():
 
     children = current_user.children
@@ -68,6 +72,7 @@ def my_children():
 
 @children.route('/children/edit/<int:id>', methods=['GET', 'POST'])
 @login_required
+@user_required
 def edit_child(id):
 
     child = Child.query.get_or_404(id)
@@ -103,6 +108,7 @@ def edit_child(id):
 
 @children.route('/children/delete/<int:id>', methods=['POST'])
 @login_required
+@user_required
 def delete_child(id):
 
     child = Child.query.get_or_404(id)

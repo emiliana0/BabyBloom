@@ -83,7 +83,7 @@
                         ) }}"
                         class="btn btn-warning"
                     >
-                        Edit Profile
+                        ✏️ Edit Profile
                     </a>
 
 
@@ -95,8 +95,28 @@
                         ) }}"
                         class="btn btn-info"
                     >
-                        Manage Sharing
+                        🤝 Manage Sharing
                     </a>
+
+
+
+                    <form
+                        method="POST"
+                        action="{{ url_for(
+                            'children.delete_child',
+                            id=child.id
+                        ) }}"
+                        onsubmit="return confirm('Are you sure you want to delete this child profile?');"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger"
+                        >
+                            🗑️ Delete Profile
+                        </button>
+
+                    </form>
 
 
                 </div>

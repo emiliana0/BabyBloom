@@ -1,0 +1,104 @@
+body {
+    background-color: #e9f1f7;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    padding-top: 15px;
+}
+
+.navbar {
+    background-color: rgb(185, 39, 124) !important;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-weight: bold;
+}
+
+
+/* My Children button */
+
+.btn-outline-primary {
+
+    border-color: white;
+
+    background-color: #bcdaee;
+
+}
+
+.btn-outline-primary:hover {
+
+    border-color: white;
+
+    color: white;
+
+}
+
+/* Logout button */
+
+.btn-outline-danger {
+
+    border-color: white;
+
+    background-color: #f8d7da;
+
+}
+
+.btn-outline-danger:hover {
+
+    border-color: white;
+
+    color: white;
+
+}
+
+.btn-outline-secondary {
+
+    border-color: white;
+    
+    background-color: #cfcdcd;
+
+}
+
+.btn-outline-secondary:hover {
+    
+    border-color: white;
+
+    color: white;
+
+}
+
+.btn-outline-success {
+
+    border-color: white;
+
+    background-color: #d4edda;
+
+}
+
+.btn-outline-success:hover {
+
+    border-color: white;
+
+    color: white;
+
+}
+
+.btn-outline-warning {
+
+    color: #e5a503;
+
+    border-color: white;
+
+    background-color: #f9f6ea;
+
+}
+
+.btn-outline-warning:hover {
+
+    border-color: white;
+
+    color: white;
+
+}

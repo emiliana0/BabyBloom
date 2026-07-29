@@ -24,7 +24,15 @@
 
 
             <h5 class="card-title">
-                {{ child.name }}
+                <a 
+                    href="{{ url_for(
+                        'children.view_child',
+                        id=child.id
+                    ) }}"
+                    class="text-decoration-none"
+                >
+                    {{ child.name }}
+                </a>
             </h5>
 
 
@@ -136,9 +144,17 @@
 
         <div class="card-body">
 
-
+            
             <h5 class="card-title">
-                {{ child.name }}
+                <a 
+                    href="{{ url_for(
+                        'children.view_child',
+                        id=child.id
+                    ) }}"
+                    class="text-decoration-none"
+                >
+                    {{ child.name }}
+                </a>
             </h5>
 
 

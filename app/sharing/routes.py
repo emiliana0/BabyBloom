@@ -28,6 +28,8 @@ from app.models import (
     RequestStatus
 )
 
+from app.utils.decorators import user_required
+
 def generate_share_code():
 
     return "".join(
@@ -42,6 +44,7 @@ def generate_share_code():
     methods=["GET", "POST"]
 )
 @login_required
+@user_required
 def generate_code(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -91,6 +94,7 @@ def generate_code(child_id):
     methods=["GET", "POST"]
 )
 @login_required
+@user_required
 def request_access():
 
     if request.method == "POST":
@@ -148,6 +152,7 @@ def request_access():
     "/access-requests"
 )
 @login_required
+@user_required
 def access_requests():
 
     requests = AccessRequest.query.join(
@@ -170,6 +175,7 @@ def access_requests():
     methods=["POST"]
 )
 @login_required
+@user_required
 def approve_request(request_id):
 
     access_request = AccessRequest.query.get_or_404(request_id)
@@ -198,6 +204,7 @@ def approve_request(request_id):
     methods=["POST"]
 )
 @login_required
+@user_required
 def reject_request(request_id):
 
     access_request = AccessRequest.query.get_or_404(request_id)
@@ -219,6 +226,7 @@ def reject_request(request_id):
     "/children/<int:child_id>/sharing"
 )
 @login_required
+@user_required
 def manage_sharing(child_id):
 
     child = Child.query.get_or_404(child_id)
@@ -232,11 +240,17 @@ def manage_sharing(child_id):
         child_id=child.id
     ).all()
 
+    pending_requests = AccessRequest.query.filter_by(
+        child_id=child.id,
+        status="PENDING"
+    ).all()
+
 
     return render_template(
         "sharing/manage.html",
         child=child,
-        shared_accesses=shared_accesses
+        shared_accesses=shared_accesses,
+        pending_requests=pending_requests
     )
 
 @sharing.route(
@@ -244,6 +258,7 @@ def manage_sharing(child_id):
     methods=["POST"]
 )
 @login_required
+@user_required
 def remove_access(access_id):
 
     access = SharedAccess.query.get_or_404(access_id)
