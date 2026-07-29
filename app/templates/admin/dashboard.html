@@ -12,7 +12,7 @@
 
         <div class="card h-100 shadow-sm">
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
 
                 <h5 class="card-title">
                     Advice
@@ -24,7 +24,7 @@
 
                 <a
                     href="{{ url_for('admin.list_advice') }}"
-                    class="btn btn-primary"
+                    class="btn btn-primary mt-auto align-self-start"
                 >
                     Manage Advice
                 </a>
@@ -39,7 +39,7 @@
 
         <div class="card h-100 shadow-sm">
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
 
                 <h5 class="card-title">
                     Users
@@ -51,7 +51,7 @@
 
                 <a
                     href="{{ url_for('admin.list_users') }}"
-                    class="btn btn-primary"
+                    class="btn btn-primary mt-auto align-self-start"
                 >
                     Manage Users
                 </a>
@@ -66,7 +66,7 @@
 
         <div class="card h-100 shadow-sm">
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
 
                 <h5 class="card-title">
                     Children
@@ -78,7 +78,7 @@
 
                 <a
                     href="{{ url_for('admin.list_children') }}"
-                    class="btn btn-primary"
+                    class="btn btn-primary mt-auto align-self-start"
                 >
                     Manage Children
                 </a>
