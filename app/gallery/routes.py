@@ -26,10 +26,12 @@ from app.models import Child, Photo
 from app.utils.permissions import has_child_access
 from app.utils.decorators import user_required
 
+from sqlalchemy import or_
+
 
 ALLOWED_EXTENSIONS = {
     "png",
-    "jpg"
+    "jpg",
     "jpeg"
 }
 
@@ -124,14 +126,95 @@ def list_photos(child_id):
 
     child = Child.query.get_or_404(child_id)
 
+
     if not has_child_access(child, current_user):
         abort(403)
 
-    photos = Photo.query.filter_by(
+
+
+    query = Photo.query.filter_by(
         child_id=child.id
-    ).order_by(
-        Photo.upload_date.desc()
-    ).all()
+    )
+
+
+
+    # Search by title and description
+
+    search = request.args.get(
+        "search"
+    )
+
+
+    if search:
+
+        query = query.filter(
+            or_(
+                Photo.title.ilike(
+                    f"%{search}%"
+                ),
+
+                Photo.description.ilike(
+                    f"%{search}%"
+                )
+            )
+        )
+
+
+
+    # Date range filtering
+
+    from_date = request.args.get(
+        "from_date"
+    )
+
+
+    to_date = request.args.get(
+        "to_date"
+    )
+
+
+
+    if from_date:
+
+        query = query.filter(
+            Photo.upload_date >= from_date
+        )
+
+
+
+    if to_date:
+
+        query = query.filter(
+            Photo.upload_date <= to_date
+        )
+
+
+
+    # Sorting
+
+    sort = request.args.get(
+        "sort",
+        "newest"
+    )
+
+
+    if sort == "oldest":
+
+        query = query.order_by(
+            Photo.upload_date.asc()
+        )
+
+    else:
+
+        query = query.order_by(
+            Photo.upload_date.desc()
+        )
+
+
+
+    photos = query.all()
+
+
 
     return render_template(
         "gallery/list.html",

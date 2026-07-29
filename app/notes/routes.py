@@ -20,6 +20,9 @@ from app.models import Child, Note, NoteCategory
 from app.utils.permissions import has_child_access
 from app.utils.decorators import user_required
 
+from sqlalchemy import or_
+
+
 
 @notes.route(
     '/children/<int:child_id>/notes/create',
@@ -44,7 +47,9 @@ def create_note(child_id):
 
             content=request.form['content'],
 
-            category=NoteCategory[request.form['category']],
+            category=NoteCategory[
+                request.form['category']
+            ],
 
             created_at=datetime.now().date(),
 
@@ -70,6 +75,9 @@ def create_note(child_id):
         child=child
     )
 
+
+
+
 @notes.route(
     '/children/<int:child_id>/notes'
 )
@@ -84,36 +92,104 @@ def list_notes(child_id):
         abort(403)
 
 
+
     query = Note.query.filter_by(
         child_id=child.id
     )
 
+
+
+    # Search by title and content
+
+    search = request.args.get(
+        'search'
+    )
+
+
+    if search:
+
+        query = query.filter(
+            or_(
+                Note.title.ilike(
+                    f"%{search}%"
+                ),
+
+                Note.content.ilike(
+                    f"%{search}%"
+                )
+            )
+        )
+
+
+
+    # Filter by category
 
     category = request.args.get(
         'category'
     )
 
 
-    date = request.args.get(
-        'date'
+    if category:
+
+        query = query.filter_by(
+            category=NoteCategory[category]
+        )
+
+
+
+    # Filter by date
+
+    from_date = request.args.get(
+        'from_date'
     )
 
 
-    if category:
-        query = query.filter_by(
-            category=category
-        )
+    to_date = request.args.get(
+        'to_date'
+    )
 
 
-    if date:
+
+    if from_date:
+
         query = query.filter(
-            Note.created_at.like(
-                f'{date}%'
-            )
+            Note.created_at >= from_date
         )
+
+
+
+    if to_date:
+
+        query = query.filter(
+            Note.created_at <= to_date
+        )
+
+
+
+    # Sorting
+
+    sort = request.args.get(
+        'sort',
+        'newest'
+    )
+
+
+    if sort == 'oldest':
+
+        query = query.order_by(
+            Note.created_at.asc()
+        )
+
+    else:
+
+        query = query.order_by(
+            Note.created_at.desc()
+        )
+
 
 
     notes = query.all()
+
 
 
     return render_template(
@@ -121,6 +197,10 @@ def list_notes(child_id):
         notes=notes,
         child=child
     )
+
+
+
+
 
 @notes.route(
     '/notes/<int:id>/edit',
@@ -144,7 +224,9 @@ def edit_note(id):
 
         note.content = request.form['content']
 
-        note.category = NoteCategory[request.form['category']]
+        note.category = NoteCategory[
+            request.form['category']
+        ]
 
 
         db.session.commit()
@@ -163,6 +245,10 @@ def edit_note(id):
         note=note
     )
 
+
+
+
+
 @notes.route(
     '/notes/<int:id>/delete',
     methods=['POST']
@@ -178,9 +264,11 @@ def delete_note(id):
         abort(403)
 
 
+
     db.session.delete(note)
 
     db.session.commit()
+
 
 
     return redirect(

@@ -3,6 +3,10 @@
 {% block content %}
 
 
+<div class="container mt-4">
+
+
+
 <div class="d-flex justify-content-between align-items-center mb-4">
 
 
@@ -26,7 +30,226 @@
 
 
 
+
+<!-- Filters -->
+
+
+<div class="card shadow-sm mb-4">
+
+
+    <div class="card-body">
+
+
+        <h5 class="mb-3">
+            Filter Notes
+        </h5>
+
+
+
+        <form method="GET">
+
+
+            <div class="row g-3">
+
+
+
+                <!-- Search -->
+
+
+                <div class="col-md-4">
+
+
+                    <input
+                        type="text"
+                        name="search"
+                        class="form-control"
+                        placeholder="Search notes..."
+                        value="{{ request.args.get('search', '') }}"
+                    >
+
+
+                </div>
+
+
+
+
+                <!-- Category -->
+
+
+                <div class="col-md-3">
+
+
+                    <select
+                        name="category"
+                        class="form-select"
+                    >
+
+
+                        <option value="">
+                            All Categories
+                        </option>
+
+
+                        <option
+                            value="HEALTH"
+                            {% if request.args.get('category') == 'HEALTH' %}
+                            selected
+                            {% endif %}
+                        >
+                            Health
+                        </option>
+
+
+                        <option
+                            value="FOOD"
+                            {% if request.args.get('category') == 'FOOD' %}
+                            selected
+                            {% endif %}
+                        >
+                            Food
+                        </option>
+
+
+                        <option
+                            value="FIRST_TIMES"
+                            {% if request.args.get('category') == 'FIRST_TIMES' %}
+                            selected
+                            {% endif %}
+                        >
+                            First Times
+                        </option>
+
+
+                        <option
+                            value="OTHER"
+                            {% if request.args.get('category') == 'OTHER' %}
+                            selected
+                            {% endif %}
+                        >
+                            Other
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
+                <!-- Date -->
+
+
+                <!-- From date -->
+
+                <div class="col-md-2">
+
+                    <input
+                        type="date"
+                        name="from_date"
+                        class="form-control"
+                        value="{{ request.args.get('from_date', '') }}"
+                    >
+
+                </div>
+
+
+
+                <!-- To date -->
+
+                <div class="col-md-2">
+
+                    <input
+                        type="date"
+                        name="to_date"
+                        class="form-control"
+                        value="{{ request.args.get('to_date', '') }}"
+                    >
+
+                </div>
+
+
+
+
+
+                <!-- Sorting -->
+
+
+                <div class="col-md-2">
+
+
+                    <select
+                        name="sort"
+                        class="form-select"
+                    >
+
+
+                        <option
+                            value="newest"
+                            {% if request.args.get('sort') == 'newest' %}
+                            selected
+                            {% endif %}
+                        >
+                            Newest first
+                        </option>
+
+
+                        <option
+                            value="oldest"
+                            {% if request.args.get('sort') == 'oldest' %}
+                            selected
+                            {% endif %}
+                        >
+                            Oldest first
+                        </option>
+
+
+                    </select>
+
+
+                </div>
+
+
+
+
+
+                <div class="col-md-1">
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100"
+                    >
+                        🔍
+                    </button>
+
+
+                </div>
+
+
+
+
+            </div>
+
+
+        </form>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+
+
 {% if notes %}
+
 
 
 <div class="row g-4">
@@ -50,11 +273,14 @@
 
 
 
+
             <span class="badge bg-info text-dark mb-3">
 
                 {{ note.category.value }}
 
             </span>
+
+
 
 
 
@@ -66,13 +292,17 @@
 
 
 
-            <small class="text-muted">
 
-                Created:
 
-               🕒 {{ note.created_at.strftime('%d.%m.%Y') }}
+            <small class="text-muted d-block mt-2">
+
+                🕒 Created:
+
+                {{ note.created_at.strftime('%d.%m.%Y') }}
 
             </small>
+
+
 
 
 
@@ -91,6 +321,8 @@
 
 
 
+
+
                 <form
                     method="POST"
                     action="{{ url_for(
@@ -98,6 +330,7 @@
                         id=note.id
                     ) }}"
                 >
+
 
                     <button
                         type="submit"
@@ -113,6 +346,7 @@
             </div>
 
 
+
         </div>
 
 
@@ -122,23 +356,33 @@
 </div>
 
 
+
 {% endfor %}
 
 
 </div>
 
 
+
+
+
 {% else %}
+
 
 
 <div class="alert alert-info">
 
-    No notes yet.
+    No notes found.
 
 </div>
 
 
+
 {% endif %}
+
+
+
+</div>
 
 
 {% endblock %}
