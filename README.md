@@ -18,7 +18,7 @@ The application provides separate functionality for regular users and administra
 - Role-based access control
 - Admin authentication
 
-# 👶 Child Profiles
+## 👶 Child Profiles
 
 Users can:
 
@@ -28,7 +28,7 @@ Users can:
 - View detailed child profiles
 - Manage memories related to each child
 
-# 📝 Notes
+## 📝 Notes
 
 Each child profile can contain personal notes.
 
@@ -45,7 +45,7 @@ Features:
 - Filter notes by date range
 - Sort notes by newest or oldest
 
-# 📷 Gallery
+## 📷 Gallery
 
 Users can store photos related to their children's development.
 
@@ -59,7 +59,7 @@ Features:
 - Filter photos by upload date
 - Sort photos by newest or oldest
 
-# 🔗 Sharing
+## 🔗 Sharing
 
 BabyBloom supports controlled profile sharing.
 
@@ -71,13 +71,13 @@ Features:
 - Manage shared users
 - Remove granted access
 
-# 💡 Parenting Advice
+## 💡 Parenting Advice
 
 Users can access parenting advice related to child development.
 
 Administrators can manage advice content through the admin panel.
 
-# 🛡️ Admin Panel
+## 🛡️ Admin Panel
 
 Administrators have access to a dedicated administration area.
 
@@ -234,3 +234,5 @@ The application supports two types of users:
 
 - **Regular users** can manage child profiles, notes, gallery, sharing access, and view parenting advice.
 - **Administrators** can access the admin panel and manage users, child profiles, and parenting advice.
+
+---
