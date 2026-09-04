@@ -6,5 +6,4 @@ children = Blueprint(
     __name__
 )
 
-
 from app.children import routes

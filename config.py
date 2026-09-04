@@ -1,6 +1,3 @@
-import os
-
-
 class Config:
 
     SECRET_KEY = "babybloom-secret-key"

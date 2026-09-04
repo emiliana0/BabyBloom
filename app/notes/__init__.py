@@ -6,5 +6,4 @@ notes = Blueprint(
     __name__
 )
 
-
 from app.notes import routes

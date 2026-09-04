@@ -1,4 +1,4 @@
-from app import db
+from app.extensions import db
 from flask_login import UserMixin
 from enum import Enum
 
@@ -10,8 +10,9 @@ class NoteCategory(Enum):
     FIRST_TIMES = "First Times"
     OTHER = "Other"
 
+
 class RequestStatus(Enum):
-    
+
     PENDING = "Pending"
     APPROVED = "Approved"
     REJECTED = "Rejected"
@@ -56,10 +57,7 @@ class User(db.Model, UserMixin):
         nullable=False
     )
 
-    def __repr__(self):
-        return f"<User {self.username}>"
-    
-    
+
 class Child(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
@@ -109,19 +107,25 @@ class Child(db.Model):
         cascade="all, delete-orphan"
     )
 
-    def __repr__(self):
-        return f"<Child {self.name}>"
-
 
 class Note(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    title = db.Column(db.String(100), nullable=False)
+    title = db.Column(
+        db.String(100),
+        nullable=False
+    )
 
-    content = db.Column(db.Text, nullable=False)
+    content = db.Column(
+        db.Text,
+        nullable=False
+    )
 
-    category = db.Column(db.Enum(NoteCategory), nullable=False)
+    category = db.Column(
+        db.Enum(NoteCategory),
+        nullable=False
+    )
 
     created_at = db.Column(
         db.Date,
@@ -182,6 +186,7 @@ class Photo(db.Model):
         back_populates="photos"
     )
 
+
 class ShareCode(db.Model):
 
     id = db.Column(
@@ -227,6 +232,7 @@ class ShareCode(db.Model):
         back_populates="share_codes"
     )
 
+
 class AccessRequest(db.Model):
 
     id = db.Column(
@@ -260,6 +266,7 @@ class AccessRequest(db.Model):
         backref="access_requests"
     )
 
+
 class SharedAccess(db.Model):
 
     id = db.Column(
@@ -276,6 +283,7 @@ class SharedAccess(db.Model):
         db.Integer,
         db.ForeignKey("child.id")
     )
+
 
 class Advice(db.Model):
 

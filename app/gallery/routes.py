@@ -1,6 +1,5 @@
 import os
 import uuid
-
 from datetime import datetime
 
 from flask import (
@@ -19,15 +18,13 @@ from flask_login import (
 )
 
 from werkzeug.utils import secure_filename
+from sqlalchemy import or_
 
 from app.gallery import gallery
 from app.extensions import db
 from app.models import Child, Photo
-
 from app.utils.permissions import has_child_access
 from app.utils.decorators import user_required
-
-from sqlalchemy import or_
 
 
 ALLOWED_EXTENSIONS = {
@@ -38,21 +35,9 @@ ALLOWED_EXTENSIONS = {
 
 
 def allowed_file(filename):
-
     return (
         "." in filename
-        and
-        filename.rsplit(".", 1)[1].lower()
-        in ALLOWED_EXTENSIONS
-    )
-
-
-def allowed_file(filename):
-
-    return (
-        "." in filename
-        and
-        filename.rsplit(".", 1)[1].lower()
+        and filename.rsplit(".", 1)[1].lower()
         in ALLOWED_EXTENSIONS
     )
 
@@ -101,30 +86,48 @@ def apply_photo_filters(
 @login_required
 @user_required
 def upload_photo(child_id):
-
     child = Child.query.get_or_404(child_id)
 
     if not has_child_access(child, current_user):
         abort(403)
 
     if request.method == "POST":
-
         file = request.files["photo"]
 
         if file.filename == "":
-            flash("No file selected.", "danger")
-            return redirect(url_for("gallery.upload_photo", child_id=child.id))
+            flash(
+                "No file selected.",
+                "danger"
+            )
+
+            return redirect(
+                url_for(
+                    "gallery.upload_photo",
+                    child_id=child.id
+                )
+            )
 
         if not allowed_file(file.filename):
-            flash("Invalid file type. Only PNG, JPG and JPEG are allowed.", "danger")
-            return redirect(url_for("gallery.upload_photo", child_id=child.id))
+            flash(
+                "Invalid file type. Only PNG, JPG and JPEG are allowed.",
+                "danger"
+            )
+
+            return redirect(
+                url_for(
+                    "gallery.upload_photo",
+                    child_id=child.id
+                )
+            )
 
         original_filename = file.filename
 
-        safe_filename = secure_filename(file.filename)
+        safe_filename = secure_filename(
+            file.filename
+        )
 
         extension = safe_filename.rsplit(
-            '.',
+            ".",
             1
         )[1].lower()
 
@@ -137,10 +140,16 @@ def upload_photo(child_id):
             f"child_{child.id}"
         )
 
-        os.makedirs(upload_folder, exist_ok=True)
+        os.makedirs(
+            upload_folder,
+            exist_ok=True
+        )
 
         file.save(
-            os.path.join(upload_folder, filename)
+            os.path.join(
+                upload_folder,
+                filename
+            )
         )
 
         photo = Photo(
@@ -155,7 +164,10 @@ def upload_photo(child_id):
         db.session.add(photo)
         db.session.commit()
 
-        flash("Photo uploaded successfully.", "success")
+        flash(
+            "Photo uploaded successfully.",
+            "success"
+        )
 
         return redirect(
             url_for(
@@ -169,13 +181,13 @@ def upload_photo(child_id):
         child=child
     )
 
+
 @gallery.route(
     "/children/<int:child_id>/gallery"
 )
 @login_required
 @user_required
 def list_photos(child_id):
-
     child = Child.query.get_or_404(child_id)
 
     if not has_child_access(child, current_user):
@@ -201,6 +213,7 @@ def list_photos(child_id):
         photos=photos
     )
 
+
 @gallery.route(
     "/photos/<int:photo_id>/edit",
     methods=["GET", "POST"]
@@ -208,7 +221,6 @@ def list_photos(child_id):
 @login_required
 @user_required
 def edit_photo(photo_id):
-
     photo = Photo.query.get_or_404(photo_id)
 
     child = photo.child
@@ -216,9 +228,7 @@ def edit_photo(photo_id):
     if not has_child_access(child, current_user):
         abort(403)
 
-
     if request.method == "POST":
-
         photo.title = request.form["title"]
 
         photo.description = request.form["description"]
@@ -228,9 +238,7 @@ def edit_photo(photo_id):
             "%Y-%m-%d"
         ).date()
 
-
         db.session.commit()
-
 
         return redirect(
             url_for(
@@ -239,11 +247,11 @@ def edit_photo(photo_id):
             )
         )
 
-
     return render_template(
         "gallery/edit.html",
         photo=photo
     )
+
 
 @gallery.route(
     "/photos/<int:photo_id>/delete",
@@ -252,17 +260,12 @@ def edit_photo(photo_id):
 @login_required
 @user_required
 def delete_photo(photo_id):
-
     photo = Photo.query.get_or_404(photo_id)
-
 
     child = photo.child
 
-
     if not has_child_access(child, current_user):
         abort(403)
-
-
 
     file_path = os.path.join(
         current_app.root_path,
@@ -271,17 +274,11 @@ def delete_photo(photo_id):
         photo.filename
     )
 
-
     if os.path.exists(file_path):
-
         os.remove(file_path)
 
-
-
     db.session.delete(photo)
-
     db.session.commit()
-
 
     return redirect(
         url_for(

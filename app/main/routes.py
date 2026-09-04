@@ -6,9 +6,7 @@ from app.main import main
 
 @main.route("/")
 def home():
-
     if current_user.is_authenticated and current_user.is_admin:
-
         return redirect(
             url_for("admin.dashboard")
         )

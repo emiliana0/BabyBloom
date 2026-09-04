@@ -6,5 +6,4 @@ auth = Blueprint(
     __name__
 )
 
-
 from app.auth import routes

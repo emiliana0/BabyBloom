@@ -1,5 +1,6 @@
 from flask import Blueprint
 
+
 sharing = Blueprint(
     "sharing",
     __name__
