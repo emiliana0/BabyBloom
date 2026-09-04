@@ -13,8 +13,10 @@ from flask import (
     abort
 )
 
-from app.utils.permissions import has_child_access
+from app.utils.permissions import has_child_access, is_child_parent
 from app.utils.decorators import user_required
+
+
 
 
 @children.route('/children/create', methods=['GET','POST'])
@@ -78,8 +80,7 @@ def edit_child(id):
     child = Child.query.get_or_404(id)
 
 
-    # Проверка дали текущият потребител е родителят
-    if child.parent_id != current_user.id:
+    if not is_child_parent(child, current_user):
         abort(403)
 
 
@@ -114,7 +115,7 @@ def delete_child(id):
     child = Child.query.get_or_404(id)
 
 
-    if child.parent_id != current_user.id:
+    if not is_child_parent(child, current_user):
         abort(403)
 
 

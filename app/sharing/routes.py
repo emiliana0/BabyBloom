@@ -8,7 +8,8 @@ from flask import (
     request,
     redirect,
     url_for,
-    abort
+    abort,
+    flash
 )
 
 from flask_login import (
@@ -29,6 +30,7 @@ from app.models import (
 )
 
 from app.utils.decorators import user_required
+from app.utils.permissions import is_child_parent 
 
 def generate_share_code():
 
@@ -38,6 +40,21 @@ def generate_share_code():
             k=6
         )
     )
+
+def validate_share_code(share_code, child_name, now):
+    if share_code is None:
+        return "Invalid code."
+
+    if share_code.expires_at < now:
+        return "Code expired."
+
+    if share_code.child.name != child_name:
+        return "Wrong child."
+
+    return None
+
+def can_request_access(existing_access):
+    return existing_access is None
 
 @sharing.route(
     "/children/<int:child_id>/generate-code",
@@ -109,29 +126,33 @@ def request_access():
             used=False
         ).first()
 
-        if share_code is None:
-            return "Invalid code."
+        validation_error = validate_share_code(
+            share_code,
+            child_name,
+            datetime.now()
+        )
 
-        if share_code.expires_at < datetime.now():
-            return "Code expired."
+        if validation_error:
+            flash(validation_error, "danger")
+            return redirect(url_for("sharing.request_access"))
 
-        if share_code.child.name != child_name:
-            return "Wrong child."
+        if is_child_parent(share_code.child, current_user):
+            flash("You cannot request access to your own child.", "danger")
+            return redirect(url_for("sharing.request_access"))
 
         existing = SharedAccess.query.filter_by(
             user_id=current_user.id,
             child_id=share_code.child.id
         ).first()
 
-        if existing:
-            return "Already connected."
+        if not can_request_access(existing):
+            flash("Already connected.", "info")
+            return redirect(url_for("sharing.request_access"))
 
+        
         access_request = AccessRequest(
-
             requester_id=current_user.id,
-
             child_id=share_code.child.id
-
         )
 
         share_code.used = True
@@ -139,6 +160,8 @@ def request_access():
         db.session.add(access_request)
 
         db.session.commit()
+
+        flash("Access request sent — waiting for approval.", "success")
 
         return redirect(
             url_for("children.my_children")
@@ -196,7 +219,10 @@ def approve_request(request_id):
     db.session.commit()
 
     return redirect(
-        url_for("sharing.access_requests")
+        url_for(
+            "sharing.manage_sharing",
+            child_id=child.id
+        )
     )
 
 @sharing.route(
@@ -219,7 +245,10 @@ def reject_request(request_id):
     db.session.commit()
 
     return redirect(
-        url_for("sharing.access_requests")
+        url_for(
+            "sharing.manage_sharing",
+            child_id=child.id
+        )
     )
 
 @sharing.route(
@@ -231,7 +260,6 @@ def manage_sharing(child_id):
 
     child = Child.query.get_or_404(child_id)
 
-    # само истинският родител може да управлява достъпа
     if child.parent_id != current_user.id:
         abort(403)
 
@@ -266,8 +294,6 @@ def remove_access(access_id):
 
     child = access.child
 
-
-    # само родителят може да премахва достъп
     if child.parent_id != current_user.id:
         abort(403)
 

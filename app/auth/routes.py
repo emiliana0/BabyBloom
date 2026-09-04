@@ -26,6 +26,14 @@ from app.models import User
 
 
 
+def is_valid_password(user, password):
+    return user is not None and check_password_hash(
+        user.password,
+        password
+    )
+
+
+
 @auth.route("/register", methods=["GET", "POST"])
 def register():
 
@@ -132,10 +140,7 @@ def login():
 
 
 
-        if user and check_password_hash(
-            user.password,
-            password
-        ):
+        if is_valid_password(user, password):
 
 
             login_user(user)
@@ -192,7 +197,20 @@ def logout():
     )
 
 
+@auth.route("/profile/delete", methods=["POST"])
+@login_required
+def delete_profile():
 
+    user = current_user._get_current_object()
+
+    logout_user()
+
+    db.session.delete(user)
+    db.session.commit()
+
+    flash("Your account has been deleted.", "info")
+
+    return redirect(url_for("main.home"))
 
 
 @auth.route("/profile")

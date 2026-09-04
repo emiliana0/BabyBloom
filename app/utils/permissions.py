@@ -12,3 +12,6 @@ def has_child_access(child, user):
     ).first()
 
     return shared is not None
+
+def is_child_parent(child, user):
+    return child.parent_id == user.id

@@ -9,7 +9,8 @@ from flask import (
     redirect,
     url_for,
     abort,
-    current_app
+    current_app,
+    flash
 )
 
 from flask_login import (
@@ -46,6 +47,53 @@ def allowed_file(filename):
     )
 
 
+def allowed_file(filename):
+
+    return (
+        "." in filename
+        and
+        filename.rsplit(".", 1)[1].lower()
+        in ALLOWED_EXTENSIONS
+    )
+
+
+def apply_photo_filters(
+    query,
+    search=None,
+    from_date=None,
+    to_date=None,
+    sort="newest"
+):
+    if search:
+        query = query.filter(
+            or_(
+                Photo.title.ilike(f"%{search}%"),
+                Photo.description.ilike(f"%{search}%")
+            )
+        )
+
+    if from_date:
+        query = query.filter(
+            Photo.upload_date >= from_date
+        )
+
+    if to_date:
+        query = query.filter(
+            Photo.upload_date <= to_date
+        )
+
+    if sort == "oldest":
+        query = query.order_by(
+            Photo.upload_date.asc()
+        )
+    else:
+        query = query.order_by(
+            Photo.upload_date.desc()
+        )
+
+    return query
+
+
 @gallery.route(
     "/children/<int:child_id>/gallery/upload",
     methods=["GET", "POST"]
@@ -64,10 +112,12 @@ def upload_photo(child_id):
         file = request.files["photo"]
 
         if file.filename == "":
-            return "No selected file"
+            flash("No file selected.", "danger")
+            return redirect(url_for("gallery.upload_photo", child_id=child.id))
 
         if not allowed_file(file.filename):
-            return "Invalid file type"
+            flash("Invalid file type. Only PNG, JPG and JPEG are allowed.", "danger")
+            return redirect(url_for("gallery.upload_photo", child_id=child.id))
 
         original_filename = file.filename
 
@@ -105,6 +155,8 @@ def upload_photo(child_id):
         db.session.add(photo)
         db.session.commit()
 
+        flash("Photo uploaded successfully.", "success")
+
         return redirect(
             url_for(
                 "gallery.list_photos",
@@ -126,95 +178,22 @@ def list_photos(child_id):
 
     child = Child.query.get_or_404(child_id)
 
-
     if not has_child_access(child, current_user):
         abort(403)
-
-
 
     query = Photo.query.filter_by(
         child_id=child.id
     )
 
-
-
-    # Search by title and description
-
-    search = request.args.get(
-        "search"
+    query = apply_photo_filters(
+        query=query,
+        search=request.args.get("search"),
+        from_date=request.args.get("from_date"),
+        to_date=request.args.get("to_date"),
+        sort=request.args.get("sort", "newest")
     )
-
-
-    if search:
-
-        query = query.filter(
-            or_(
-                Photo.title.ilike(
-                    f"%{search}%"
-                ),
-
-                Photo.description.ilike(
-                    f"%{search}%"
-                )
-            )
-        )
-
-
-
-    # Date range filtering
-
-    from_date = request.args.get(
-        "from_date"
-    )
-
-
-    to_date = request.args.get(
-        "to_date"
-    )
-
-
-
-    if from_date:
-
-        query = query.filter(
-            Photo.upload_date >= from_date
-        )
-
-
-
-    if to_date:
-
-        query = query.filter(
-            Photo.upload_date <= to_date
-        )
-
-
-
-    # Sorting
-
-    sort = request.args.get(
-        "sort",
-        "newest"
-    )
-
-
-    if sort == "oldest":
-
-        query = query.order_by(
-            Photo.upload_date.asc()
-        )
-
-    else:
-
-        query = query.order_by(
-            Photo.upload_date.desc()
-        )
-
-
 
     photos = query.all()
-
-
 
     return render_template(
         "gallery/list.html",

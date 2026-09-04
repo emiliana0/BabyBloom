@@ -24,6 +24,52 @@ from sqlalchemy import or_
 
 
 
+
+def apply_note_filters(
+    query,
+    search=None,
+    category=None,
+    from_date=None,
+    to_date=None,
+    sort='newest'
+):
+    if search:
+        query = query.filter(
+            or_(
+                Note.title.ilike(f"%{search}%"),
+                Note.content.ilike(f"%{search}%")
+            )
+        )
+
+    if category:
+        query = query.filter_by(
+            category=NoteCategory[category]
+        )
+
+    if from_date:
+        query = query.filter(
+            Note.created_at >= from_date
+        )
+
+    if to_date:
+        query = query.filter(
+            Note.created_at <= to_date
+        )
+
+    if sort == 'oldest':
+        query = query.order_by(
+            Note.created_at.asc()
+        )
+    else:
+        query = query.order_by(
+            Note.created_at.desc()
+        )
+
+    return query
+
+
+
+
 @notes.route(
     '/children/<int:child_id>/notes/create',
     methods=['GET', 'POST']
@@ -87,110 +133,23 @@ def list_notes(child_id):
 
     child = Child.query.get_or_404(child_id)
 
-
     if not has_child_access(child, current_user):
         abort(403)
-
-
 
     query = Note.query.filter_by(
         child_id=child.id
     )
 
-
-
-    # Search by title and content
-
-    search = request.args.get(
-        'search'
+    query = apply_note_filters(
+        query=query,
+        search=request.args.get('search'),
+        category=request.args.get('category'),
+        from_date=request.args.get('from_date'),
+        to_date=request.args.get('to_date'),
+        sort=request.args.get('sort', 'newest')
     )
-
-
-    if search:
-
-        query = query.filter(
-            or_(
-                Note.title.ilike(
-                    f"%{search}%"
-                ),
-
-                Note.content.ilike(
-                    f"%{search}%"
-                )
-            )
-        )
-
-
-
-    # Filter by category
-
-    category = request.args.get(
-        'category'
-    )
-
-
-    if category:
-
-        query = query.filter_by(
-            category=NoteCategory[category]
-        )
-
-
-
-    # Filter by date
-
-    from_date = request.args.get(
-        'from_date'
-    )
-
-
-    to_date = request.args.get(
-        'to_date'
-    )
-
-
-
-    if from_date:
-
-        query = query.filter(
-            Note.created_at >= from_date
-        )
-
-
-
-    if to_date:
-
-        query = query.filter(
-            Note.created_at <= to_date
-        )
-
-
-
-    # Sorting
-
-    sort = request.args.get(
-        'sort',
-        'newest'
-    )
-
-
-    if sort == 'oldest':
-
-        query = query.order_by(
-            Note.created_at.asc()
-        )
-
-    else:
-
-        query = query.order_by(
-            Note.created_at.desc()
-        )
-
-
 
     notes = query.all()
-
-
 
     return render_template(
         'notes/list.html',

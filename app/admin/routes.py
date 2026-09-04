@@ -1,16 +1,16 @@
-from functools import wraps
-
 from flask import (
     render_template,
     request,
     redirect,
     url_for,
-    abort
+    abort,
+    flash
 )
 
 from flask_login import (
     login_required,
-    current_user
+    current_user,
+    logout_user
 )
 
 from app.admin import admin
@@ -20,21 +20,8 @@ from app.models import (
     Child,
     Advice
 )
+from app.utils.decorators import admin_required
 
-def admin_required(view):
-
-    @wraps(view)
-    def wrapped(*args, **kwargs):
-
-        if not current_user.is_authenticated:
-            abort(401)
-
-        if not current_user.is_admin:
-            abort(403)
-
-        return view(*args, **kwargs)
-
-    return wrapped
 
 @admin.route("/admin")
 @login_required
@@ -79,7 +66,8 @@ def remove_admin(id):
     user = User.query.get_or_404(id)
 
     if user.id == current_user.id:
-        return "You cannot remove your own administrator rights."
+        flash("You cannot remove your own administrator rights.", "danger")
+        return redirect(url_for("admin.list_users"))
 
     user.is_admin = False
 
@@ -192,13 +180,15 @@ def delete_user(id):
 
     user = User.query.get_or_404(id)
 
-    # не позволяваме админ да изтрие себе си
-    if user.id == current_user.id:
-        return "You cannot delete yourself."
+    deleting_self = user.id == current_user.id
 
     db.session.delete(user)
-
     db.session.commit()
+
+    if deleting_self:
+        logout_user()
+        flash("Your account has been deleted.", "info")
+        return redirect(url_for("main.home"))
 
     return redirect(
         url_for("admin.list_users")
