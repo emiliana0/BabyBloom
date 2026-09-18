@@ -1,335 +1,93 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="container mt-5">
-
 
 {% if current_user.is_authenticated %}
 
-
-
     <div class="text-center mb-5">
-
-
-        <h1 class="display-5">
-
-            🌱 Welcome back, {{ current_user.username }}!
-
-        </h1>
-
-
+        <h1 class="display-5">🌱 Welcome back, {{ current_user.username }}!</h1>
         <p class="lead text-muted">
-
             Manage your children's memories, milestones, and important moments.
-
         </p>
-
-
     </div>
 
-
-
-
-
-    <!-- Quick Actions -->
-
-
-    <h2 class="mb-4">
-
-        Quick Actions
-
-    </h2>
-
-
-
+    <h2 class="mb-4">Quick Actions</h2>
 
     <div class="row g-4">
 
-
-
-
-
         <div class="col-md-6">
-
-
             <div class="card shadow-sm h-100">
-
-
                 <div class="card-body">
-
-
-                    <h4>
-
-                        👶 My Children
-
-                    </h4>
-
-
-                    <p>
-
-                        View and manage your children's profiles and shared access.
-
-                    </p>
-
-
-                    <a
-                        href="{{ url_for(
-                            'children.my_children'
-                        ) }}"
-                        class="btn btn-primary"
-                    >
-
+                    <h4>👶 My Children</h4>
+                    <p>View and manage your children's profiles and shared access.</p>
+                    <a href="{{ url_for('children.my_children') }}" class="btn btn-primary">
                         Open
-
                     </a>
-
-
                 </div>
-
-
             </div>
-
-
         </div>
 
-
-
-
-
-
-
         <div class="col-md-6">
-
-
             <div class="card shadow-sm h-100">
-
-
                 <div class="card-body">
-
-
-                    <h4>
-
-                        🔑 Request Access
-
-                    </h4>
-
-
-                    <p>
-
-                        Request access to another child's profile using a share code.
-
-                    </p>
-
-
-                    <a
-                        href="{{ url_for(
-                            'sharing.request_access'
-                        ) }}"
-                        class="btn btn-success"
-                    >
-
+                    <h4>🔑 Request Access</h4>
+                    <p>Request access to another child's profile using a share code.</p>
+                    <a href="{{ url_for('sharing.request_access') }}" class="btn btn-success">
                         Request
-
                     </a>
-
-
                 </div>
-
-
             </div>
-
-
         </div>
 
-
-
-
-
-
-
         <div class="col-md-6">
-
-
             <div class="card shadow-sm h-100">
-
-
                 <div class="card-body">
-
-
-                    <h4>
-
-                        💡 Parenting Advice
-
-                    </h4>
-
-
-                    <p>
-
-                        Explore helpful advice about child development and parenting.
-
-                    </p>
-
-
-                    <a
-                        href="{{ url_for(
-                            'advice.list_advice'
-                        ) }}"
-                        class="btn btn-warning"
-                    >
-
+                    <h4>💡 Parenting Advice</h4>
+                    <p>Explore helpful advice about child development and parenting.</p>
+                    <a href="{{ url_for('advice.list_advice') }}" class="btn btn-warning">
                         Read
-
                     </a>
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-
-
-
-
-
-
 
         <div class="col-md-6">
-
-
             <div class="card shadow-sm h-100">
-
-
                 <div class="card-body">
-
-
-                    <h4>
-
-                        👤 My Profile
-
-                    </h4>
-
-
-                    <p>
-
-                        View and manage your personal information.
-
-                    </p>
-
-
-                    <a
-                        href="{{ url_for(
-                            'auth.profile'
-                        ) }}"
-                        class="btn btn-secondary"
-                    >
-
+                    <h4>👤 My Profile</h4>
+                    <p>View and manage your personal information.</p>
+                    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">
                         Profile
-
                     </a>
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-
-
-
 
     </div>
-
-
-
 
 {% else %}
 
-
-
-
-
     <div class="row justify-content-center text-center">
-
-
         <div class="col-md-8">
-
-
             <div class="card shadow-sm mt-5">
-
-
                 <div class="card-body p-5">
-
-
-                    <h1 class="display-4 mb-4">
-
-                        🌱 Welcome to BabyBloom
-
-                    </h1>
-
-
+                    <h1 class="display-4 mb-4">🌱 Welcome to BabyBloom</h1>
                     <p class="lead mb-4">
-
-                        Save and share the most precious moments
-                        of your child's development.
-
+                        Save and share the most precious moments of your child's development.
                     </p>
-
-
-
-
-                    <a
-                        href="{{ url_for(
-                            'auth.login'
-                        ) }}"
-                        class="btn btn-primary btn-lg me-2"
-                    >
-
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg me-2">
                         Login
-
                     </a>
-
-
-
-
-                    <a
-                        href="{{ url_for(
-                            'auth.register'
-                        ) }}"
-                        class="btn btn-outline-primary btn-lg"
-                    >
-
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-lg">
                         Register
-
                     </a>
-
-
-
                 </div>
-
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
-
 
 {% endif %}
 
-
-
 </div>
-
-
 {% endblock %}

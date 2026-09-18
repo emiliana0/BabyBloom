@@ -1,86 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="card shadow-sm">
-
     <div class="card-body">
 
-        <h1 class="mb-4">
-            Edit Advice
-        </h1>
-
+        <h1 class="mb-4">Edit Advice</h1>
 
         <form method="POST">
-
-
             <div class="mb-3">
-
-                <label
-                    for="title"
-                    class="form-label"
-                >
-                    Title
-                </label>
-
-
-                <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    name="title"
-                    value="{{ advice.title }}"
-                    required
-                >
-
+                <label for="title" class="form-label">Title</label>
+                <input type="text" class="form-control" id="title" name="title"
+                       value="{{ advice.title }}" required>
             </div>
 
-
-
             <div class="mb-3">
-
-                <label
-                    for="content"
-                    class="form-label"
-                >
-                    Content
-                </label>
-
-
-                <textarea
-                    class="form-control"
-                    id="content"
-                    name="content"
-                    rows="10"
-                    required
-                >{{ advice.content }}</textarea>
-
+                <label for="content" class="form-label">Content</label>
+                <textarea class="form-control" id="content" name="content" rows="10"
+                          required>{{ advice.content }}</textarea>
             </div>
 
-
-
-            <button
-                type="submit"
-                class="btn btn-success"
-            >
-                Save Changes
-            </button>
-
-
-            <a
-                href="{{ url_for('admin.list_advice') }}"
-                class="btn btn-secondary ms-2"
-            >
-                Back
-            </a>
-
-
+            <button type="submit" class="btn btn-success">Save Changes</button>
+            <a href="{{ url_for('admin.list_advice') }}" class="btn btn-secondary ms-2">Back</a>
         </form>
 
-
     </div>
-
 </div>
-
-
 {% endblock %}

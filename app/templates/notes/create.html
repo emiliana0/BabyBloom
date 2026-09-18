@@ -1,149 +1,44 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="row justify-content-center">
-
-
     <div class="col-md-7">
-
-
         <div class="card shadow-sm mt-5">
-
-
             <div class="card-body p-4">
 
-
-                <h1 class="mb-4 text-center">
-                    Add Note for {{ child.name }}
-                </h1>
-
-
+                <h1 class="mb-4 text-center">Add Note for {{ child.name }}</h1>
 
                 <form method="POST">
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="title"
-                            class="form-label"
-                        >
-                            Title
-                        </label>
-
-
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="title"
-                            name="title"
-                            required
-                        >
-
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required>
                     </div>
 
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="category"
-                            class="form-label"
-                        >
-                            Category
-                        </label>
-
-
-                        <select
-                            class="form-select"
-                            id="category"
-                            name="category"
-                            required
-                        >
-
-                            <option value="HEALTH">
-                                Health
-                            </option>
-
-
-                            <option value="FOOD">
-                                Food
-                            </option>
-
-
-                            <option value="FIRST_TIMES">
-                                First Times
-                            </option>
-
-
-                            <option value="OTHER">
-                                Other
-                            </option>
-
-
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="HEALTH">Health</option>
+                            <option value="FOOD">Food</option>
+                            <option value="FIRST_TIMES">First Times</option>
+                            <option value="OTHER">Other</option>
                         </select>
-
-
                     </div>
-
-
 
                     <div class="mb-3">
-
-                        <label
-                            for="content"
-                            class="form-label"
-                        >
-                            Content
-                        </label>
-
-
-                        <textarea
-                            class="form-control"
-                            id="content"
-                            name="content"
-                            rows="6"
-                        ></textarea>
-
-
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content"
+                                  rows="6"></textarea>
                     </div>
 
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-success"
-                    >
-                        Save Note
-                    </button>
-
-
-                    <a
-                        href="{{ url_for(
-                            'notes.list_notes',
-                            child_id=child.id
-                        ) }}"
-                        class="btn btn-secondary ms-2"
-                    >
+                    <button type="submit" class="btn btn-success">Save Note</button>
+                    <a href="{{ url_for('notes.list_notes', child_id=child.id) }}"
+                       class="btn btn-secondary ms-2">
                         Back
                     </a>
-
-
                 </form>
 
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
-
-
 {% endblock %}

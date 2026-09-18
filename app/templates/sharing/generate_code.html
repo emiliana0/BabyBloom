@@ -1,93 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="row justify-content-center">
-
-
     <div class="col-md-6">
-
-
         <div class="card shadow-sm mt-5">
-
-
             <div class="card-body p-4 text-center">
 
-
-                <h1 class="mb-4">
-                    Share Access
-                </h1>
-
-
-
-                <h3 class="mb-4">
-                    for {{ child.name }}
-                </h3>
-
-
+                <h1 class="mb-4">Share Access</h1>
+                <h3 class="mb-4">for {{ child.name }}</h3>
 
                 <form method="POST">
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Generate Code
-                    </button>
-
-
+                    <button type="submit" class="btn btn-primary">Generate Code</button>
                 </form>
 
-
-
                 {% if code %}
+                    <hr class="my-4">
 
+                    <h4>Share Code</h4>
 
-                <hr class="my-4">
+                    <div class="alert alert-success mt-3">
+                        <h1 class="display-4 fw-bold">{{ code }}</h1>
+                    </div>
 
-
-
-                <h4>
-                    Share Code
-                </h4>
-
-
-
-                <div class="alert alert-success mt-3">
-
-
-                    <h1 class="display-4 fw-bold">
-                        {{ code }}
-                    </h1>
-
-
-                </div>
-
-
-
-                <p class="text-muted">
-
-                    This code is valid for 10 minutes.
-
-                </p>
-
-
-
+                    <p class="text-muted">This code is valid for 10 minutes.</p>
                 {% endif %}
 
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
-
-
 {% endblock %}

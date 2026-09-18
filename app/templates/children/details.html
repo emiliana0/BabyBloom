@@ -1,140 +1,55 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="row justify-content-center">
-
-
     <div class="col-md-8">
-
-
         <div class="card shadow-sm mt-4">
-
-
             <div class="card-body p-4">
 
+                <h1 class="mb-3">{{ child.name }}</h1>
 
-                <h1 class="mb-3">
-                    {{ child.name }}
-                </h1>
-
-
-                <p class="text-muted">
-
-                    <strong>Born:</strong>
-
-                    {{ child.birth_date }}
-
-                </p>
-
+                <p class="text-muted"><strong>Born:</strong> {{ child.birth_date }}</p>
 
                 <hr>
 
-
                 <div class="d-flex gap-3 flex-wrap">
-
-
-                    <a
-                        href="{{ url_for(
-                            'notes.list_notes',
-                            child_id=child.id
-                        ) }}"
-                        class="btn btn-primary"
-                    >
+                    <a href="{{ url_for('notes.list_notes', child_id=child.id) }}"
+                       class="btn btn-primary">
                         📝 Notes
                     </a>
-
-
-
-                    <a
-                        href="{{ url_for(
-                            'gallery.list_photos',
-                            child_id=child.id
-                        ) }}"
-                        class="btn btn-success"
-                    >
+                    <a href="{{ url_for('gallery.list_photos', child_id=child.id) }}"
+                       class="btn btn-success">
                         📷 Gallery
                     </a>
-
-
                 </div>
-
-
 
                 {% if child.parent_id == current_user.id %}
+                    <hr>
 
+                    <h5 class="mb-3">Parent Actions</h5>
 
-                <hr>
+                    <div class="d-flex gap-3 flex-wrap">
+                        <a href="{{ url_for('children.edit_child', id=child.id) }}"
+                           class="btn btn-warning">
+                            ✏️ Edit Profile
+                        </a>
+                        <a href="{{ url_for('sharing.manage_sharing', child_id=child.id) }}"
+                           class="btn btn-info">
+                            🤝 Manage Sharing
+                        </a>
 
-
-                <h5 class="mb-3">
-                    Parent Actions
-                </h5>
-
-
-                <div class="d-flex gap-3 flex-wrap">
-
-
-                    <a
-                        href="{{ url_for(
-                            'children.edit_child',
-                            id=child.id
-                        ) }}"
-                        class="btn btn-warning"
-                    >
-                        ✏️ Edit Profile
-                    </a>
-
-
-
-                    <a
-                        href="{{ url_for(
-                            'sharing.manage_sharing',
-                            child_id=child.id
-                        ) }}"
-                        class="btn btn-info"
-                    >
-                        🤝 Manage Sharing
-                    </a>
-
-
-
-                    <form
-                        method="POST"
-                        action="{{ url_for(
-                            'children.delete_child',
-                            id=child.id
-                        ) }}"
-                        onsubmit="return confirm('Are you sure you want to delete this child profile?');"
-                    >
-
-                        <button
-                            type="submit"
-                            class="btn btn-danger"
+                        <form
+                            method="POST"
+                            action="{{ url_for('children.delete_child', id=child.id) }}"
+                            onsubmit="return confirm('Are you sure you want to delete this child profile?');"
                         >
-                            🗑️ Delete Profile
-                        </button>
-
-                    </form>
-
-
-                </div>
-
-
+                            <button type="submit" class="btn btn-danger">🗑️ Delete Profile</button>
+                        </form>
+                    </div>
                 {% endif %}
 
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
-
-
 {% endblock %}

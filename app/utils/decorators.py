@@ -16,7 +16,6 @@ def user_required(view):
 
     return wrapped
 
-
 def admin_required(view):
     @wraps(view)
     def wrapped(*args, **kwargs):

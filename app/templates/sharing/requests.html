@@ -1,140 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="container mt-4">
 
+<h1 class="mb-4">🔔 Pending Requests</h1>
 
-    <h1 class="mb-4">
-        🔔 Pending Requests
-    </h1>
-
-
-
-    {% if requests %}
-
-
-
+{% if requests %}
     <div class="row g-3">
-
-
-        {% for request in requests %}
-
-
-
+    {% for request in requests %}
         <div class="col-md-6">
-
-
             <div class="card shadow-sm">
-
-
                 <div class="card-body">
 
-
-                    <h5 class="card-title">
-
-                        {{ request.requester.username }}
-
-                    </h5>
-
-
-
+                    <h5 class="card-title">{{ request.requester.username }}</h5>
                     <p class="card-text">
-
-                        Requests access to:
-
-                        <strong>
-                            {{ request.child.name }}
-                        </strong>
-
+                        Requests access to: <strong>{{ request.child.name }}</strong>
                     </p>
 
-
-
                     <div class="d-flex gap-2">
-
-
-                        <form
-                            method="POST"
-                            action="{{ url_for(
-                                'sharing.approve_request',
-                                request_id=request.id
-                            ) }}"
-                        >
-
-
-                            <button
-                                type="submit"
-                                class="btn btn-success"
-                            >
-                                Approve
-                            </button>
-
-
+                        <form method="POST"
+                              action="{{ url_for('sharing.approve_request', request_id=request.id) }}">
+                            <button type="submit" class="btn btn-success">Approve</button>
                         </form>
 
-
-
-
-                        <form
-                            method="POST"
-                            action="{{ url_for(
-                                'sharing.reject_request',
-                                request_id=request.id
-                            ) }}"
-                        >
-
-
-                            <button
-                                type="submit"
-                                class="btn btn-danger"
-                            >
-                                Reject
-                            </button>
-
-
+                        <form method="POST"
+                              action="{{ url_for('sharing.reject_request', request_id=request.id) }}">
+                            <button type="submit" class="btn btn-danger">Reject</button>
                         </form>
-
-
                     </div>
 
-
                 </div>
-
-
             </div>
-
-
         </div>
-
-
-
-        {% endfor %}
-
-
-
+    {% endfor %}
     </div>
-
-
-
-    {% else %}
-
-
-
-    <div class="alert alert-info">
-
-        No pending requests.
-
-    </div>
-
-
-
-    {% endif %}
-
-
+{% else %}
+    <div class="alert alert-info">No pending requests.</div>
+{% endif %}
 
 </div>
-
-
 {% endblock %}

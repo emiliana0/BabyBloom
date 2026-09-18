@@ -1,83 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h1 class="mb-0">
-        Advice
-    </h1>
-
-    <a
-        href="{{ url_for('admin.create_advice') }}"
-        class="btn btn-primary"
-    >
-        Add Advice
-    </a>
-
+    <h1 class="mb-0">Advice</h1>
+    <a href="{{ url_for('admin.create_advice') }}" class="btn btn-primary">Add Advice</a>
 </div>
 
-{% if advice_list %}
-
-    {% for advice in advice_list %}
-
+{% for advice in advice_list %}
     <div class="card mb-3 shadow-sm">
-
         <div class="card-body">
 
-            <h5 class="card-title">
-                {{ advice.title }}
-            </h5>
-
-            <p class="card-text">
-                {{ advice.content }}
-            </p>
+            <h5 class="card-title">{{ advice.title }}</h5>
+            <p class="card-text">{{ advice.content }}</p>
 
             <div class="d-flex gap-2">
-
-                <a
-                    href="{{ url_for(
-                        'admin.edit_advice',
-                        id=advice.id
-                    ) }}"
-                    class="btn btn-warning"
-                >
+                <a href="{{ url_for('admin.edit_advice', id=advice.id) }}" class="btn btn-warning">
                     Edit
                 </a>
 
-                <form
-                    method="POST"
-                    action="{{ url_for(
-                        'admin.delete_advice',
-                        id=advice.id
-                    ) }}"
-                >
-
-                    <button
-                        type="submit"
-                        class="btn btn-danger"
-                    >
-                        Delete
-                    </button>
-
+                <form method="POST" action="{{ url_for('admin.delete_advice', id=advice.id) }}">
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-
             </div>
 
         </div>
-
     </div>
-
-    {% endfor %}
-
 {% else %}
-
-<div class="alert alert-info">
-
-    No advice available.
-
-</div>
-
-{% endif %}
-
+    <div class="alert alert-info">No advice available.</div>
+{% endfor %}
 {% endblock %}

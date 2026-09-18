@@ -1,221 +1,84 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="d-flex justify-content-between align-items-center mb-4">
-
-    <h1 class="mb-0">
-        My Children
-    </h1>
-
-
-    <a
-        href="{{ url_for(
-            'children.create_child'
-        ) }}"
-        class="btn btn-primary"
-    >
-        Add Child
-    </a>
-
+    <h1 class="mb-0">My Children</h1>
+    <a href="{{ url_for('children.create_child') }}" class="btn btn-primary">Add Child</a>
 </div>
-
 
 <div class="row g-4">
 
-
 {% for child in children %}
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
 
+                <h5 class="card-title">
+                    <a href="{{ url_for('children.view_child', id=child.id) }}"
+                       class="text-decoration-none">
+                        {{ child.name }}
+                    </a>
+                </h5>
 
-<div class="col-md-4">
+                <p class="card-text"><strong>Born:</strong> {{ child.birth_date }}</p>
 
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="{{ url_for('children.edit_child', id=child.id) }}"
+                       class="btn btn-warning">
+                        Edit
+                    </a>
 
-    <div class="card shadow-sm h-100">
+                    <form method="POST"
+                          action="{{ url_for('children.delete_child', id=child.id) }}">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
 
-
-        <div class="card-body">
-
-
-            <h5 class="card-title">
-                <a 
-                    href="{{ url_for(
-                        'children.view_child',
-                        id=child.id
-                    ) }}"
-                    class="text-decoration-none"
-                >
-                    {{ child.name }}
-                </a>
-            </h5>
-
-
-            <p class="card-text">
-
-                <strong>Born:</strong>
-
-                {{ child.birth_date }}
-
-            </p>
-
-
-
-            <div class="d-flex flex-wrap gap-2">
-
-
-                <a
-                    href="{{ url_for(
-                        'children.edit_child',
-                        id=child.id
-                    ) }}"
-                    class="btn btn-warning"
-                >
-                    Edit
-                </a>
-
-
-
-                <form
-                    method="POST"
-                    action="{{ url_for(
-                        'children.delete_child',
-                        id=child.id
-                    ) }}"
-                >
-
-                    <button
-                        type="submit"
-                        class="btn btn-danger"
-                    >
-                        Delete
-                    </button>
-
-                </form>
-
-
-
-                <a
-                    href="{{ url_for(
-                        'sharing.manage_sharing',
-                        child_id=child.id
-                    ) }}"
-                    class="btn btn-primary"
-                >
-                    Manage Sharing
-                </a>
-
+                    <a href="{{ url_for('sharing.manage_sharing', child_id=child.id) }}"
+                       class="btn btn-primary">
+                        Manage Sharing
+                    </a>
+                </div>
 
             </div>
-
-
         </div>
-
-
     </div>
-
-
-</div>
-
-
 {% else %}
-
-
-<div class="alert alert-info">
-
-    You don't have any children profiles yet.
-
-</div>
-
-
+    <div class="alert alert-info">You don't have any children profiles yet.</div>
 {% endfor %}
 
-
 </div>
-
-
 
 <hr class="my-5">
 
-
-
-<h1 class="mb-4">
-    Shared With Me
-</h1>
-
-
+<h1 class="mb-4">Shared With Me</h1>
 
 <div class="row g-4">
 
-
 {% for child in shared_children %}
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
 
+                <h5 class="card-title">
+                    <a href="{{ url_for('children.view_child', id=child.id) }}"
+                       class="text-decoration-none">
+                        {{ child.name }}
+                    </a>
+                </h5>
 
-<div class="col-md-4">
+                <p class="card-text"><strong>Born:</strong> {{ child.birth_date }}</p>
 
-
-    <div class="card shadow-sm h-100">
-
-
-        <div class="card-body">
-
-            
-            <h5 class="card-title">
-                <a 
-                    href="{{ url_for(
-                        'children.view_child',
-                        id=child.id
-                    ) }}"
-                    class="text-decoration-none"
-                >
-                    {{ child.name }}
+                <a href="{{ url_for('children.view_child', id=child.id) }}"
+                   class="btn btn-success">
+                    Open
                 </a>
-            </h5>
 
-
-            <p class="card-text">
-
-                <strong>Born:</strong>
-
-                {{ child.birth_date }}
-
-            </p>
-
-
-
-            <a
-                href="{{ url_for(
-                    'children.view_child',
-                    id=child.id
-                ) }}"
-                class="btn btn-success"
-            >
-                Open
-            </a>
-
-
+            </div>
         </div>
-
-
     </div>
-
-
-</div>
-
-
 {% else %}
-
-
-<div class="alert alert-secondary">
-
-    No shared children.
-
-</div>
-
-
+    <div class="alert alert-secondary">No shared children.</div>
 {% endfor %}
 
-
 </div>
-
-
 {% endblock %}

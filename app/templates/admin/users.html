@@ -1,113 +1,46 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1 class="mb-4">
-    Users
-</h1>
+<h1 class="mb-4">Users</h1>
 
 {% for user in users %}
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
 
-<div class="card mb-3 shadow-sm">
+            <h5 class="card-title">{{ user.username }}</h5>
 
-    <div class="card-body">
+            <p class="mb-1"><strong>Email:</strong> {{ user.email }}</p>
 
-        <h5 class="card-title">
-            {{ user.username }}
-        </h5>
+            <p class="mb-3">
+                <strong>Administrator:</strong>
+                {% if user.is_admin %}
+                    <span class="badge bg-success">Yes</span>
+                {% else %}
+                    <span class="badge bg-secondary">No</span>
+                {% endif %}
+            </p>
 
-        <p class="mb-1">
-            <strong>Email:</strong>
-            {{ user.email }}
-        </p>
+            <div class="d-flex gap-2 flex-wrap">
+                {% if not user.is_admin %}
+                    <form method="POST" action="{{ url_for('admin.make_admin', id=user.id) }}">
+                        <button type="submit" class="btn btn-success">Make Admin</button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{{ url_for('admin.remove_admin', id=user.id) }}">
+                        <button type="submit" class="btn btn-warning">Remove Admin</button>
+                    </form>
+                {% endif %}
 
-        <p class="mb-3">
-
-            <strong>Administrator:</strong>
-
-            {% if user.is_admin %}
-
-                <span class="badge bg-success">
-                    Yes
-                </span>
-
-            {% else %}
-
-                <span class="badge bg-secondary">
-                    No
-                </span>
-
-            {% endif %}
-
-        </p>
-
-        <div class="d-flex gap-2 flex-wrap">
-
-            {% if not user.is_admin %}
-
-            <form
-                method="POST"
-                action="{{ url_for(
-                    'admin.make_admin',
-                    id=user.id
-                ) }}"
-            >
-
-                <button
-                    type="submit"
-                    class="btn btn-success"
+                <form
+                    method="POST"
+                    action="{{ url_for('admin.delete_user', id=user.id) }}"
+                    onsubmit="return confirm('{% if user.id == current_user.id %}This will delete YOUR OWN account and log you out. Continue?{% else %}Delete this user?{% endif %}');"
                 >
-                    Make Admin
-                </button>
-
-            </form>
-
-            {% else %}
-
-            <form
-                method="POST"
-                action="{{ url_for(
-                    'admin.remove_admin',
-                    id=user.id
-                ) }}"
-            >
-
-                <button
-                    type="submit"
-                    class="btn btn-warning"
-                >
-                    Remove Admin
-                </button>
-
-            </form>
-
-            {% endif %}
-
-            <form
-                method="POST"
-                action="{{ url_for(
-                    'admin.delete_user',
-                    id=user.id
-                ) }}"
-                onsubmit="return confirm(
-                    '{% if user.id == current_user.id %}This will delete YOUR OWN account and log you out. Continue?{% else %}Delete this user?{% endif %}');"
-            >
-
-                <button
-                    type="submit"
-                    class="btn btn-danger"
-                >
-                    Delete User
-                </button>
-
-            </form>
+                    <button type="submit" class="btn btn-danger">Delete User</button>
+                </form>
+            </div>
 
         </div>
-
     </div>
-
-</div>
-
 {% endfor %}
-
 {% endblock %}

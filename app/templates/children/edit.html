@@ -1,103 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="row justify-content-center">
-
-
     <div class="col-md-6">
-
-
         <div class="card shadow-sm mt-5">
-
-
             <div class="card-body p-4">
 
-
-                <h1 class="mb-4 text-center">
-                    Edit Child
-                </h1>
-
+                <h1 class="mb-4 text-center">Edit Child</h1>
 
                 <form method="POST">
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="name"
-                            class="form-label"
-                        >
-                            Name
-                        </label>
-
-
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="name"
-                            name="name"
-                            value="{{ child.name }}"
-                            required
-                        >
-
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name"
+                               value="{{ child.name }}" required>
                     </div>
 
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="birth_date"
-                            class="form-label"
-                        >
-                            Birth Date
-                        </label>
-
-
-                        <input
-                            type="date"
-                            class="form-control"
-                            id="birth_date"
-                            name="birth_date"
-                            value="{{ child.birth_date }}"
-                            required
-                        >
-
+                        <label for="birth_date" class="form-label">Birth Date</label>
+                        <input type="date" class="form-control" id="birth_date" name="birth_date"
+                               value="{{ child.birth_date }}" required>
                     </div>
 
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-success"
-                    >
-                        Save Changes
-                    </button>
-
-
-                    <a
-                        href="{{ url_for('children.my_children') }}"
-                        class="btn btn-secondary ms-2"
-                    >
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a href="{{ url_for('children.my_children') }}" class="btn btn-secondary ms-2">
                         Back
                     </a>
-
-
                 </form>
 
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
-
-
 {% endblock %}

@@ -1,60 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1 class="mb-4">
-    Children
-</h1>
+<h1 class="mb-4">Children</h1>
 
 {% for child in children %}
+    <div class="card mb-3 shadow-sm">
+        <div class="card-body">
 
-<div class="card mb-3 shadow-sm">
+            <h5 class="card-title">{{ child.name }}</h5>
 
-    <div class="card-body">
+            <p class="mb-1"><strong>Birth date:</strong> {{ child.birth_date }}</p>
+            <p class="mb-3"><strong>Parent:</strong> {{ child.parent.username }}</p>
 
-        <h5 class="card-title">
-            {{ child.name }}
-        </h5>
+            <form method="POST" action="{{ url_for('admin.delete_child', id=child.id) }}">
+                <button type="submit" class="btn btn-danger">Delete Child</button>
+            </form>
 
-        <p class="mb-1">
-            <strong>Birth date:</strong>
-            {{ child.birth_date }}
-        </p>
-
-        <p class="mb-3">
-            <strong>Parent:</strong>
-            {{ child.parent.username }}
-        </p>
-
-        <form
-            method="POST"
-            action="{{ url_for(
-                'admin.delete_child',
-                id=child.id
-            ) }}"
-        >
-
-            <button
-                type="submit"
-                class="btn btn-danger"
-            >
-                Delete Child
-            </button>
-
-        </form>
-
+        </div>
     </div>
-
-</div>
-
 {% else %}
-
-<div class="alert alert-info">
-
-    There are no child profiles.
-
-</div>
-
+    <div class="alert alert-info">There are no child profiles.</div>
 {% endfor %}
-
 {% endblock %}

@@ -1,172 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-
 <div class="row justify-content-center">
-
-
     <div class="col-md-7">
-
-
         <div class="card shadow-sm mt-5">
-
-
             <div class="card-body p-4">
 
-
-                <h1 class="mb-4 text-center">
-                    Edit Note
-                </h1>
-
+                <h1 class="mb-4 text-center">Edit Note</h1>
 
                 <form method="POST">
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="title"
-                            class="form-label"
-                        >
-                            Title
-                        </label>
-
-
-                        <input
-                            type="text"
-                            class="form-control"
-                            id="title"
-                            name="title"
-                            value="{{ note.title }}"
-                            required
-                        >
-
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="title" name="title"
+                               value="{{ note.title }}" required>
                     </div>
 
-
-
                     <div class="mb-3">
-
-                        <label
-                            for="category"
-                            class="form-label"
-                        >
-                            Category
-                        </label>
-
-
-                        <select
-                            class="form-select"
-                            id="category"
-                            name="category"
-                            required
-                        >
-
-                            <option
-                                value="HEALTH"
-                                {% if note.category.name == "HEALTH" %}
-                                    selected
-                                {% endif %}
-                            >
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-select" id="category" name="category" required>
+                            <option value="HEALTH"
+                                {% if note.category.name == "HEALTH" %}selected{% endif %}>
                                 Health
                             </option>
-
-
-                            <option
-                                value="FOOD"
-                                {% if note.category.name == "FOOD" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="FOOD"
+                                {% if note.category.name == "FOOD" %}selected{% endif %}>
                                 Food
                             </option>
-
-
-                            <option
-                                value="FIRST_TIMES"
-                                {% if note.category.name == "FIRST_TIMES" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="FIRST_TIMES"
+                                {% if note.category.name == "FIRST_TIMES" %}selected{% endif %}>
                                 First Times
                             </option>
-
-
-                            <option
-                                value="OTHER"
-                                {% if note.category.name == "OTHER" %}
-                                    selected
-                                {% endif %}
-                            >
+                            <option value="OTHER"
+                                {% if note.category.name == "OTHER" %}selected{% endif %}>
                                 Other
                             </option>
-
-
                         </select>
-
-
                     </div>
-
-
 
                     <div class="mb-3">
-
-
-                        <label
-                            for="content"
-                            class="form-label"
-                        >
-                            Content
-                        </label>
-
-
-                        <textarea
-                            class="form-control"
-                            id="content"
-                            name="content"
-                            rows="6"
-                            required
-                        >{{ note.content }}</textarea>
-
-
+                        <label for="content" class="form-label">Content</label>
+                        <textarea class="form-control" id="content" name="content" rows="6"
+                                  required>{{ note.content }}</textarea>
                     </div>
 
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-success"
-                    >
-                        Save Changes
-                    </button>
-
-
-
-                    <a
-                        href="{{ url_for(
-                            'notes.list_notes',
-                            child_id=note.child.id
-                        ) }}"
-                        class="btn btn-secondary ms-2"
-                    >
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                    <a href="{{ url_for('notes.list_notes', child_id=note.child.id) }}"
+                       class="btn btn-secondary ms-2">
                         Back
                     </a>
-
-
                 </form>
 
-
             </div>
-
-
         </div>
-
-
     </div>
-
-
 </div>
-
-
 {% endblock %}

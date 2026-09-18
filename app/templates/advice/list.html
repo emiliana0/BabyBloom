@@ -1,60 +1,22 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-
-
-<h1 class="mb-4">
-    💡 Parenting Advice
-</h1>
-
+<h1 class="mb-4">💡 Parenting Advice</h1>
 
 <div class="row g-4">
 
-
 {% for advice in advice_list %}
-
-
-<div class="col-md-6">
-
-
-    <div class="card shadow-sm h-100">
-
-
-        <div class="card-body">
-
-
-            <h4>
-                {{ advice.title }}
-            </h4>
-
-
-            <p>
-                {{ advice.content }}
-            </p>
-
-
+    <div class="col-md-6">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h4>{{ advice.title }}</h4>
+                <p>{{ advice.content }}</p>
+            </div>
         </div>
-
-
     </div>
-
-
-</div>
-
-
 {% else %}
-
-
-<p>
-    No advice available yet.
-</p>
-
-
+    <p>No advice available yet.</p>
 {% endfor %}
 
-
 </div>
-
-
 {% endblock %}
